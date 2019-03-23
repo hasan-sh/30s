@@ -1,0 +1,29 @@
+{
+  "name": "thirty-seconds",
+  "private": true,
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "immer": "^1.9.3",
+    "react": "^16.8.4",
+    "react-native": "0.59.0-rc.3",
+    "react-native-paper": "^2.4.0",
+    "react-native-vector-icons": "^6.1.0",
+    "react-navigation": "^2.18.2",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-saga": "^0.16.2"
+  },
+  "devDependencies": {
+    "babel-preset-react-native": "2.1.0",
+    "jest": "^23.6.0",
+    "schedule": "^0.4.0"
+  }
+}
