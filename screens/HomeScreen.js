@@ -28,6 +28,7 @@ function HomeScreen(props) {
   const [showButton, setShowButton] = useState(true)
 
   useEffect(() => {
+    // props.navigation.navigate('About')
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => setShowButton(false)
@@ -50,7 +51,6 @@ function HomeScreen(props) {
   }, [error])
 
   useEffect(() => {
-    // props.navigation.navigate('Settings')
     if (teams.length < 2 && canStart) {
       setCanStart(false)
     } else if (teams.length >= 2 && !canStart) {
@@ -69,6 +69,12 @@ function HomeScreen(props) {
         <Title style={styles.getStartedText}>
           أهلاً بك في لعبة ٣٠ ثانية, هنا ستختبر ذكائك بطريقة ممتعة!
         </Title>
+        <Button 
+          mode="outlined"
+          color='black'
+          // style={styles.getStartedText}
+          onPress={() => props.navigation.navigate('About')}
+        >إقرأ المزيد</Button>
       </View>
       <ScrollView
         style={styles.container}

@@ -3,19 +3,29 @@ import { Platform } from 'react-native'
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
 
 import TabBarIcon from '../components/TabBarIcon'
+
 import HomeScreen from '../screens/HomeScreen'
 import GamesScreen from '../screens/GamesScreen'
 import StatusScreen from '../screens/StatusScreen'
 import SettingsScreen from '../screens/SettingsScreen'
+import AboutScreen from '../screens/AboutScreen';
 
 import Colors from '../constants/Colors'
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: { screen: HomeScreen, navigationOptions: {
+      header: null,
+    } },
+    About: {
+      screen: AboutScreen,
+      navigationOptions: {
+        title: 'عن اللعبة',
+      }
+    },
   },
   {
-    headerMode: 'none',
+    // headerMode: 'none',
   }
 )
 
