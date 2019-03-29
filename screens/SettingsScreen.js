@@ -52,8 +52,8 @@ const SettingsScreen = () => {
           onValueChange={itemValue => setQuestionLimit(itemValue)}
         >
           <Picker.Item label="4 خيارات" value={4} />
+          <Picker.Item label="5 خيارات" value={5} />
           <Picker.Item label="6 خيارات" value={6} />
-          <Picker.Item label="8 خيارات" value={8} />
         </Picker>
       </View>
     </View>

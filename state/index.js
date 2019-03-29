@@ -21,6 +21,7 @@ export const initialState = {
     },
   ],
   playingTeamIndex: null,
+  started: false,
   questions: [],
   questionsStatus: {},
   canStart: false,

@@ -18,15 +18,15 @@ const QuestionsView = props => (
             <View>
               <Checkbox
                 status={
-                  props.questionsStatus[question.text] ? 'checked' : 'unchecked'
+                  props.questionsStatus[question] ? 'checked' : 'unchecked'
                 }
                 onPress={() => {
-                  props.setCheck(question.text)
+                  props.setCheck(question)
                 }}
                 disabled={props.played}
                 background={{ type: 'RippleAndroid' }}
               />
-              <Text>{question.text}</Text>
+              <Text>{question}</Text>
             </View>
           ) : (
             <Text>...</Text>

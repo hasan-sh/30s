@@ -36,6 +36,10 @@ const setPlayingTeamIndex = state => {
   state.playingTeamIndex = generatedIndex
 }
 
+const setStarted = (state, started) => {
+  state.started = started
+}
+
 const setQuestionsStatus = (state, text) => {
   const { questionsStatus } = state
   questionsStatus[text] = !questionsStatus[text]
@@ -74,6 +78,7 @@ export default {
   setCanStart,
   removeTeam,
   setPlayingTeamIndex,
+  setStarted,
   setQuestionsStatus,
   setQuestionLimit,
   setTime,

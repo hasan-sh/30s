@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Vibration } from 'react-native'
 import { Button, Subheading } from 'react-native-paper'
 
 import Colors from '../constants/Colors'
@@ -8,6 +8,7 @@ import { Context } from '../state'
 import QuestionsView from '../components/QuestionView'
 import Timer from '../components/Timer'
 import { allQuestionsAnswered } from '../helpers'
+import { VIBRATE_DURATION_PATTERN } from '../constants/Questions'
 
 const DEFAULT_ERROR_MESSAGE = ' لايوجد أسئلة في الوقت الحالي, هل لديك فريق؟'
 
@@ -20,20 +21,23 @@ function GamesScreen(props) {
       time,
       teams,
       playingTeamIndex,
+      started,
       canStart,
     },
-    { generateQuestions, setQuestionsStatus, calculatePoints, reset },
+    { generateQuestions, setQuestionsStatus, setStarted, calculatePoints, reset },
   ] = React.useContext(Context)
   const [errorMessage, setErrorMessage] = useState()
   const [startTimer, setStartTimer] = useState()
   const [ready, setReady] = useState(false)
   const [played, setPlayed] = useState(false)
 
+    console.log(JSON.stringify(props.navigation, null, 3))
   useEffect(() => {
     if (played) {
       setPlayed(false)
     }
   }, [questions])
+
   useEffect(() => {
     if (canStart) {
       setErrorMessage(null)
@@ -53,6 +57,12 @@ function GamesScreen(props) {
     }
   }, [questionsStatus])
 
+  useEffect(() => {
+    if (played && !startTimer) {
+      Vibration.vibrate(VIBRATE_DURATION_PATTERN)
+    }
+  }, [played, startTimer])
+
   function done() {
     setStartTimer(false)
     setPlayed(true)
@@ -60,6 +70,7 @@ function GamesScreen(props) {
   }
   const winner = teams.find(team => team.points >= 5)
   if (winner) {
+    setStarted(false)
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>{winner.name} الفائز</Text>
@@ -99,6 +110,7 @@ function GamesScreen(props) {
                 onPress={() => {
                   if (ready) {
                     setStartTimer(true)
+                    setStarted(true)
                   } else {
                     setReady(true)
                   }
