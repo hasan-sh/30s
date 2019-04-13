@@ -11,7 +11,7 @@ const AboutScreen = () => {
     );
 
     return (
-        <ScrollView style={{padding: 5}}>
+        <ScrollView style={{padding: 15}}>
             <MarkDown style={markdownStyles}>{About}</MarkDown>
         </ScrollView>
     );
@@ -32,7 +32,7 @@ const markdownStyles = StyleSheet.create({
     // },
     text: {
         color: '#555555',
-        fontSize: 18,
+        // fontSize: 18,
     },
     heading: {
         borderBottomWidth: 1,
