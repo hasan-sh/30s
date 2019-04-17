@@ -24,14 +24,13 @@ function GamesScreen(props) {
       started,
       canStart,
     },
-    { generateQuestions, setQuestionsStatus, setStarted, calculatePoints, reset },
+    { generateQuestions, setQuestionsStatus, setStarted, reset },
   ] = React.useContext(Context)
   const [errorMessage, setErrorMessage] = useState()
   const [startTimer, setStartTimer] = useState()
   const [ready, setReady] = useState(false)
   const [played, setPlayed] = useState(false)
 
-    console.log(JSON.stringify(props.navigation, null, 3))
   useEffect(() => {
     if (played) {
       setPlayed(false)
@@ -52,25 +51,24 @@ function GamesScreen(props) {
   }, [canStart])
 
   useEffect(() => {
-    if (allQuestionsAnswered(questionsStatus, questionLimit)) {
+    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questionLimit)) {
       done()
     }
   }, [questionsStatus])
 
   useEffect(() => {
     if (played && !startTimer) {
-      Vibration.vibrate(VIBRATE_DURATION_PATTERN)
+      // Vibration.vibrate(VIBRATE_DURATION_PATTERN)
     }
   }, [played, startTimer])
 
   function done() {
     setStartTimer(false)
     setPlayed(true)
-    calculatePoints()
   }
   const winner = teams.find(team => team.points >= 5)
   if (winner) {
-    setStarted(false)
+    // setStarted(false)
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>{winner.name} الفائز</Text>
@@ -78,7 +76,6 @@ function GamesScreen(props) {
           icon="arrow-back"
           mode="contained"
           theme={{ roundness: 0 }}
-          disabled={startTimer}
           onPress={() => {
             reset()
             props.navigation.pop()
@@ -89,6 +86,22 @@ function GamesScreen(props) {
           }}
         >
           الفرق
+        </Button>
+        <Button
+          icon="arrow-forward"
+          mode="contained"
+          color={Colors.submit}
+          theme={{ roundness: 0 }}
+          onPress={() => {
+            props.navigation.navigate('Status')
+          }}
+          style={{
+            alignSelf: 'stretch',
+            marginTop: 5,
+            padding: 5,
+          }}
+        >
+          نتائج
         </Button>
       </View>
     )
@@ -134,6 +147,7 @@ function GamesScreen(props) {
           show={startTimer || played}
           played={played}
           setCheck={setQuestionsStatus}
+          playingTeamIndex={playingTeamIndex}
         />
 
         {errorMessage && (

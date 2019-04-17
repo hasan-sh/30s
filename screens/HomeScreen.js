@@ -50,7 +50,6 @@ function HomeScreen(props) {
   }, [error])
 
   useEffect(() => {
-    // props.navigation.navigate('Settings')
     if (teams.length < 2 && canStart) {
       setCanStart(false)
     } else if (teams.length >= 2 && !canStart) {
