@@ -21,7 +21,6 @@ const removeTeam = (state, id) => {
 
 const generateQuestions = state => {
   state.questions = getQuestions(state.questionLimit)
-  state.questionsStatus = {}
 }
 
 const setCanStart = (state, value) => {
@@ -41,8 +40,12 @@ const setStarted = (state, started) => {
 }
 
 const setQuestionsStatus = (state, text) => {
-  const { questionsStatus } = state
-  questionsStatus[text] = !questionsStatus[text]
+  const { questionsStatus, teams, playingTeamIndex } = state
+  questionsStatus[playingTeamIndex] = questionsStatus[playingTeamIndex] || {}
+  questionsStatus[playingTeamIndex][text] = !questionsStatus[playingTeamIndex][text]
+  const keys = Object.keys(questionsStatus[playingTeamIndex])
+  const points = keys.filter(q => questionsStatus[playingTeamIndex][q]).length;
+  teams[playingTeamIndex].points =  points;
 }
 
 const setQuestionLimit = (state, limit) => {
@@ -53,11 +56,6 @@ const setTime = (state, time) => {
   state.time = time
 }
 
-const calculatePoints = state => {
-  /*  */ const { questionsStatus, teams, playingTeamIndex } = state
-  const howMany = Object.keys(questionsStatus).length
-  teams[playingTeamIndex].points += howMany
-}
 
 const reset = state => {
   state.questionsStatus = {}
@@ -82,6 +80,5 @@ export default {
   setQuestionsStatus,
   setQuestionLimit,
   setTime,
-  calculatePoints,
   reset,
 }

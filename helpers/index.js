@@ -4,7 +4,7 @@ import { QUESTIONS_LIMIT } from '../constants/Questions'
 let playingTeamIndex = 0
 export function getPlayingTeamGen(totalLength) {
   // while (true) {
-  if (playingTeamIndex === totalLength) {
+  if (playingTeamIndex >= totalLength) {
     playingTeamIndex = 0
   }
   //   yield playingTeamIndex++
