@@ -3,6 +3,12 @@
 Thirty Seconds is a game in which you play to gain both knowledge and fun.
 > It's a very nice game to play with your friends, but also with your family.
 
+## Instllation
+- Run `yarn` to install the dependencies.
+- If you have your device plugged in or an emulator set up, you can simply run `yarn start` to start the game.
+- Create a team and start playing :)
+> I built this game targetting Arabic speakers(because didn't find a 30s game in Arabic). So everything is in Arabic! If you think it should be available in other languages, please make a pull request! 
+
 ## How to play ✌?
 First of all you'll have to have an opponent. There can be 2 or more teams in the game.
 After you've chosen the teams, you're basically ready to go.
