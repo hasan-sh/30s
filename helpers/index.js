@@ -56,3 +56,20 @@ export function getQuestions(limit = QUESTIONS_LIMIT) {
   }
   return getChoice()
 }
+
+export function initialTeam(fromTerms = terms.philosophers) {
+  const length = fromTerms.length
+  function randomScholar() {
+    const randomIndex = Math.floor(Math.random() * length)
+    return randomIndex >= 1
+      ? fromTerms[randomIndex]
+      : fromTerms[randomIndex + 1]
+  }
+
+  const team = {
+    id: Date.now(),
+    name: randomScholar(),
+    points: 0,
+  }
+  return team
+}
