@@ -8,29 +8,32 @@ import Colors from '../constants/Colors'
 
 function StatusScreen(props) {
   const [
-    { teams, playingTeamIndex, canStart },
+    { teams, playingTeamIndex, canStart, winningLimit },
     { generateQuestions, setPlayingTeamIndex },
   ] = React.useContext(Context)
 
   // Should go back to previous screen!
   if (!canStart) props.navigation.pop()
+  const winner = teams.find(team => team.points >= winningLimit)
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
-        <View
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}
-        >
-          <Text style={{ color: 'gray' }}> :الفريق التالي</Text>
-          <Title>
-            {teams[playingTeamIndex + 1]
-              ? teams[playingTeamIndex + 1].name
-              : teams[0].name}
-          </Title>
-        </View>
+        {!winner && (
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}
+          >
+            <Text style={{ color: 'gray' }}> :الفريق التالي</Text>
+            <Title>
+              {teams[playingTeamIndex + 1]
+                ? teams[playingTeamIndex + 1].name
+                : teams[0].name}
+            </Title>
+          </View>
+        )}
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>فريق</DataTable.Title>
@@ -77,6 +80,7 @@ function StatusScreen(props) {
         theme={{
           roundness: 0,
         }}
+        disabled={!!winner}
         onPress={() => {
           setPlayingTeamIndex()
           generateQuestions()
