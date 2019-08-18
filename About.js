@@ -53,7 +53,7 @@ const About = `# لعبة ٣٠ ثانية
 
 ## صنع مع ℒℴνℯ
 
-هل تريد المساهمة؟
-[github](https://github.com/hasan-sh/30s/issues) :)`;
+هل تريد المساهمة؟ [github](https://github.com/hasan-sh/30s/issues) :)
 
+-----------------------------`;
 export default About;
