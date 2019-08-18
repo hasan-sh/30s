@@ -152,17 +152,19 @@ function GamesScreen(props) {
             time={time}
           />
         )}
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ color: count < 5 ? 'red' : 'blue' }}>
-            {played
-              ? `
-            الوقت النهائي ${count} ثانية
-            `
-              : `
-            الوقت ${count} ثانية
-            `}
-          </Text>
-        </View>
+        {!errorMessage && (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: count < 5 ? 'red' : 'blue' }}>
+              {played
+                ? `
+              الوقت النهائي ${count} ثانية
+              `
+                : `
+              الوقت ${count} ثانية
+              `}
+            </Text>
+          </View>
+        )}
 
         <QuestionsView
           questions={questions}
