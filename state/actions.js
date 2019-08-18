@@ -1,4 +1,10 @@
-import { getQuestions, getIndex, getPlayingTeamGen } from '../helpers'
+import {
+  getQuestions,
+  getIndex,
+  getPlayingTeamGen,
+  initialTeam,
+} from '../helpers'
+import terms from '../terms2'
 
 const addTeam = (state, team) => {
   state.teams.push({ id: Date.now(), ...team })
@@ -42,25 +48,29 @@ const setStarted = (state, started) => {
 const setQuestionsStatus = (state, text) => {
   const { questionsStatus, teams, playingTeamIndex } = state
   questionsStatus[playingTeamIndex] = questionsStatus[playingTeamIndex] || {}
-  questionsStatus[playingTeamIndex][text] = !questionsStatus[playingTeamIndex][text]
+  questionsStatus[playingTeamIndex][text] = !questionsStatus[playingTeamIndex][
+    text
+  ]
   const keys = Object.keys(questionsStatus[playingTeamIndex])
-  const points = keys.filter(q => questionsStatus[playingTeamIndex][q]).length;
-  teams[playingTeamIndex].points =  points;
+  const points = keys.filter(q => questionsStatus[playingTeamIndex][q]).length
+  teams[playingTeamIndex].points = points
 }
 
 const setQuestionLimit = (state, limit) => {
   state.questionLimit = limit
 }
 
+const setWinningLimit = (state, limit) => {
+  state.winningLimit = limit
+}
+
 const setTime = (state, time) => {
   state.time = time
 }
 
-
 const reset = state => {
   state.questionsStatus = {}
-  // state.teams.forEach(team => (team.points = 0))
-  state.teams = []
+  state.teams = [initialTeam(terms.adjectives)]
   state.questions = []
   state.playingTeamIndex = null
 }
@@ -79,6 +89,7 @@ export default {
   setStarted,
   setQuestionsStatus,
   setQuestionLimit,
+  setWinningLimit,
   setTime,
   reset,
 }

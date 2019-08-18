@@ -1,25 +1,12 @@
 import React, { createContext, useState, useMemo } from 'react'
 import immer from 'immer'
 
-import terms from '../terms2.json'
 import actions from './actions'
-import { TIME, QUESTIONS_LIMIT } from '../constants/Questions.js'
-
-const length = terms.philosophers.length
-const randomIndex = Math.round(Math.random() * length)
-const randomScholarName =
-  terms.philosophers[randomIndex] > 1
-    ? terms.philosophers[randomIndex]
-    : terms.philosophers[randomIndex + 1]
+import { TIME, QUESTIONS_LIMIT, WINNING_LIMIT } from '../constants/Questions.js'
+import { initialTeam } from '../helpers/index'
 
 export const initialState = {
-  teams: [
-    {
-      id: Date.now(),
-      name: randomScholarName,
-      points: 0,
-    },
-  ],
+  teams: [initialTeam()],
   playingTeamIndex: null,
   started: false,
   questions: [],
@@ -27,6 +14,7 @@ export const initialState = {
   canStart: false,
   time: TIME,
   questionLimit: QUESTIONS_LIMIT,
+  winningLimit: WINNING_LIMIT,
 }
 
 export const Context = createContext(initialState)

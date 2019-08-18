@@ -4,9 +4,10 @@ import { Divider } from 'react-native-paper'
 import { Context } from '../state'
 
 const SettingsScreen = () => {
-  const [{ time, questionLimit }, { setTime, setQuestionLimit }] = useContext(
-    Context
-  )
+  const [
+    { time, questionLimit, winningLimit },
+    { setTime, setQuestionLimit, setWinningLimit },
+  ] = useContext(Context);
 
   return (
     <View
@@ -54,6 +55,27 @@ const SettingsScreen = () => {
           <Picker.Item label="4 خيارات" value={4} />
           <Picker.Item label="5 خيارات" value={5} />
           <Picker.Item label="6 خيارات" value={6} />
+        </Picker>
+      </View>
+      <Divider style={{ color: 'black', height: 2, width: '100%' }} />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ flexGrow: 1 }}>حدْ الربح</Text>
+        <Picker
+          selectedValue={winningLimit}
+          style={{ height: 50, width: 200 }}
+          onValueChange={itemValue => setWinningLimit(itemValue)}
+        >
+          <Picker.Item label="5 نقاط" value={5} />
+          <Picker.Item label="8 نقاط" value={8} />
+          <Picker.Item label="15 نقطة" value={15} />
+          <Picker.Item label="25 نقطة" value={25} />
         </Picker>
       </View>
     </View>
