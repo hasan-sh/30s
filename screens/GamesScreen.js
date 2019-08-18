@@ -9,6 +9,7 @@ import QuestionsView from '../components/QuestionView'
 import Timer from '../components/Timer'
 import { allQuestionsAnswered } from '../helpers'
 import { VIBRATE_DURATION_PATTERN } from '../constants/Questions'
+import DisableBackButton from '../components/DisableBackButton';
 
 const DEFAULT_ERROR_MESSAGE = ' لايوجد أسئلة في الوقت الحالي, هل لديك فريق؟'
 
@@ -21,7 +22,7 @@ function GamesScreen(props) {
       time,
       teams,
       playingTeamIndex,
-      started,
+      winningLimit,
       canStart,
     },
     { generateQuestions, setQuestionsStatus, setStarted, reset },
@@ -30,10 +31,12 @@ function GamesScreen(props) {
   const [startTimer, setStartTimer] = useState()
   const [ready, setReady] = useState(false)
   const [played, setPlayed] = useState(false)
+  const [count, setCount] = useState(time);
 
   useEffect(() => {
     if (played) {
       setPlayed(false)
+      setCount(time)
     }
   }, [questions])
 
@@ -57,16 +60,16 @@ function GamesScreen(props) {
   }, [questionsStatus])
 
   useEffect(() => {
-    if (played && !startTimer) {
-      // Vibration.vibrate(VIBRATE_DURATION_PATTERN)
+    if (count === 0) {
+      Vibration.vibrate(VIBRATE_DURATION_PATTERN)
     }
-  }, [played, startTimer])
+  }, [count])
 
   function done() {
     setStartTimer(false)
     setPlayed(true)
   }
-  const winner = teams.find(team => team.points >= 5)
+  const winner = teams.find(team => team.points >= winningLimit)
   if (winner) {
     // setStarted(false)
     return (
@@ -109,6 +112,7 @@ function GamesScreen(props) {
 
   return (
     <View style={styles.container}>
+      <DisableBackButton disable={startTimer} />
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
         {canStart && playingTeamIndex !== null && !played && (
           <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -139,7 +143,26 @@ function GamesScreen(props) {
           </View>
         )}
 
-        {startTimer && <Timer done={done} time={time} />}
+        {startTimer && (
+          <Timer
+            setCount={(newCount) => {
+              if (count === 0) return done();
+              setCount(newCount);
+            }}
+            time={time}
+          />
+        )}
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ color: count < 5 ? 'red' : 'blue' }}>
+            {played
+              ? `
+            الوقت النهائي ${count} ثانية
+            `
+              : `
+            الوقت ${count} ثانية
+            `}
+          </Text>
+        </View>
 
         <QuestionsView
           questions={questions}

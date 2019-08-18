@@ -2,19 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Text, View } from 'react-native'
 
 function Timer(props) {
-  const [count, setCount] = useState(props.time)
+  const count = useRef(props.time)
   useInterval(() => {
-    if (count === 0) return props.done()
-    setCount(count - 1)
+    count.current = count.current - 1
+    if(count.current < 0) return
+    props.setCount(count.current)
   }, 1000)
 
-  return (
-    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: count < 5 ? 'red' : 'blue' }}>
-        الوقت {count}ثانية
-      </Text>
-    </View>
-  )
+  return null
 }
 
 function useInterval(callback, delay) {
