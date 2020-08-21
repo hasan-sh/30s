@@ -61,6 +61,7 @@ function GamesScreen(props) {
 
   useEffect(() => {
     if (count === 0) {
+      done();
       Vibration.vibrate(VIBRATE_DURATION_PATTERN)
     }
   }, [count])
@@ -146,7 +147,7 @@ function GamesScreen(props) {
         {startTimer && (
           <Timer
             setCount={(newCount) => {
-              if (count === 0) return done();
+              // if (count < 1) return done();
               setCount(newCount);
             }}
             time={time}
