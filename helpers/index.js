@@ -13,8 +13,8 @@ export function getPlayingTeamGen(totalLength) {
 }
 
 export function allQuestionsAnswered(status, questionLimit) {
-  const length = Object.keys(status).length
-  return length === questionLimit
+  const values = Object.values(status)
+  return values.length === questionLimit && values.every(value => value)
 }
 
 export function getIndex(arr, from, identifier) {
