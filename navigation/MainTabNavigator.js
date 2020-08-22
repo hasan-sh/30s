@@ -23,6 +23,12 @@ const HomeStack = createStackNavigator(
         title: 'عن اللعبة',
       }
     },
+    Settings: {
+      screen: SettingsScreen,
+      navigationOptions: {
+        title: 'الإعدادات',
+      },
+    },
   },
   {
     // headerMode: 'none',
@@ -53,12 +59,6 @@ const GameStack = createStackNavigator(
       screen: StatusScreen,
       navigationOptions: {
         title: 'النتائج',
-      },
-    },
-    Settings: {
-      screen: SettingsScreen,
-      navigationOptions: {
-        title: 'الإعدادات',
       },
     },
   },
