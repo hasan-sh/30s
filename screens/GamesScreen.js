@@ -29,7 +29,6 @@ function GamesScreen(props) {
   ] = React.useContext(Context)
   const [errorMessage, setErrorMessage] = useState()
   const [startTimer, setStartTimer] = useState()
-  const [ready, setReady] = useState(false)
   const [played, setPlayed] = useState(false)
   const [count, setCount] = useState(time);
 
@@ -113,7 +112,7 @@ function GamesScreen(props) {
 
   return (
     <View style={styles.container}>
-      <DisableBackButton disable={startTimer} />
+      <DisableBackButton disable={true} />
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
         {canStart && playingTeamIndex !== null && !played && (
           <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -121,26 +120,6 @@ function GamesScreen(props) {
               <Text style={{ color: 'gray' }}>فريق:</Text>{' '}
               {teams[playingTeamIndex].name}
             </Subheading>
-            {!startTimer && !played && (
-              <Button
-                mode="contained"
-                theme={{ roundness: 5 }}
-                onPress={() => {
-                  if (ready) {
-                    setStartTimer(true)
-                    setStarted(true)
-                  } else {
-                    setReady(true)
-                  }
-                }}
-                style={{
-                  width: '50%',
-                  marginTop: 5,
-                }}
-              >
-                {ready ? 'إبدأ' : 'جاهز'}
-              </Button>
-            )}
           </View>
         )}
 
@@ -207,6 +186,26 @@ function GamesScreen(props) {
         >
           رجوع
         </Button>
+
+        {!startTimer && !played ? (
+          <Button
+            mode="contained"
+            theme={{ roundness: 0 }}
+          color={Colors.submit}
+          theme={{ roundness: 0 }}
+            onPress={() => {
+                setStartTimer(true)
+                setStarted(true)
+            }}
+            style={{
+              alignSelf: 'stretch',
+              marginTop: 5,
+              padding: 5,
+            }}
+          >
+            إبدأ
+          </Button>
+        ) : (
         <Button
           icon="arrow-forward"
           mode="contained"
@@ -224,6 +223,7 @@ function GamesScreen(props) {
         >
           نتائج
         </Button>
+        )}
       </View>
     </View>
   )

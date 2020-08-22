@@ -80,7 +80,7 @@ function HomeScreen(props) {
         style={styles.container}
         contentContainerStyle={{ alignItems: 'center' }}
       >
-        <List.Section title="الفرق" style={styles.teamList}>
+        <List.Section title="الفرق المنافسة" style={styles.teamList}>
           <Text style={{ color: 'red', alignSelf: 'flex-end' }}>{error}</Text>
 
           <KeyboardAvoidingView

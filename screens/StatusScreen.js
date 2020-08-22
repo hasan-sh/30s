@@ -18,7 +18,7 @@ function StatusScreen(props) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
-        {!winner && (
+        {/* {!winner && (
           <View
             style={{
               alignItems: 'center',
@@ -33,7 +33,7 @@ function StatusScreen(props) {
                 : teams[0].name}
             </Title>
           </View>
-        )}
+        )} */}
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>فريق</DataTable.Title>
@@ -92,7 +92,9 @@ function StatusScreen(props) {
           padding: 5,
         }}
       >
-        إبدأ
+        التالي <Text style={{fontWeight: 'bold', fontSize: 16}}>{teams[playingTeamIndex + 1]
+                ? teams[playingTeamIndex + 1].name
+                : teams[0].name}</Text>
       </Button>
     </View>
   )
@@ -107,9 +109,4 @@ const styles = StyleSheet.create({
 })
 
 StatusScreen.propTypes = {}
-
-// export default connect(
-//   state => state,
-//   null
-// )(GamesScreen)
 export default StatusScreen
