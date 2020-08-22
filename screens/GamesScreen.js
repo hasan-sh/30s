@@ -54,7 +54,7 @@ function GamesScreen(props) {
   }, [canStart])
 
   useEffect(() => {
-    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questionLimit)) {
+    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questions, questionLimit)) {
       done()
     }
   }, [questionsStatus])

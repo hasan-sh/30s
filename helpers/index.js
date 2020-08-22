@@ -12,9 +12,8 @@ export function getPlayingTeamGen(totalLength) {
   return playingTeamIndex++
 }
 
-export function allQuestionsAnswered(status, questionLimit) {
-  const values = Object.values(status)
-  return values.length === questionLimit && values.every(value => value)
+export function allQuestionsAnswered(status, questions, questionLimit) {
+  return questions.every(question => status[question])
 }
 
 export function getIndex(arr, from, identifier) {
