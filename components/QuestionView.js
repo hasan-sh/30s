@@ -5,7 +5,7 @@ import {
     TouchableHighlight,
     TouchableWithoutFeedback,
 } from 'react-native';
-import { Divider, Button } from 'react-native-paper';
+import { Divider, Button, IconButton } from 'react-native-paper';
 
 const QuestionsView = (props) => (
     <View style={{ flex: 1 }}>
@@ -25,7 +25,7 @@ const QuestionsView = (props) => (
                         {props.show ? (
                             <React.Fragment>
                                 {props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][question] && (
-                                    <Button icon="done" />
+                                    <Button icon="check" />
                                 )}
                                 <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][question] ? 'blue' : 'black'}}>{question}</Text>
                             </React.Fragment>

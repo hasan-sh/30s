@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { ScrollView, StyleSheet, Text, View, Vibration } from 'react-native'
-import { Button, Subheading } from 'react-native-paper'
+import { Button, IconButton, Subheading } from 'react-native-paper'
 
 import Colors from '../constants/Colors'
 import { Context } from '../state'
@@ -76,7 +76,11 @@ function GamesScreen(props) {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>{winner.name} الفائز</Text>
         <Button
-          icon="arrow-back"
+          icon={() => <IconButton
+            icon={{ source: 'arrow-right', direction: 'rtl' }}
+            style={{ padding: 0, margin: 0}}
+            color='white'
+          />}
           mode="contained"
           theme={{ roundness: 0 }}
           onPress={() => {
@@ -91,7 +95,11 @@ function GamesScreen(props) {
           الفرق
         </Button>
         <Button
-          icon="arrow-forward"
+          icon={() => <IconButton
+            icon={{ source: 'arrow-left', direction: 'rtl' }}
+            style={{ padding: 0, margin: 0}}
+            color='white'
+          />}
           mode="contained"
           color={Colors.submit}
           theme={{ roundness: 0 }}
@@ -173,22 +181,25 @@ function GamesScreen(props) {
       </ScrollView>
       <View>
         <Button
-          icon="arrow-back"
-          mode="contained"
+          icon="stop-circle-outline"
+          mode="outlined"
           theme={{ roundness: 0 }}
+          // color={Colors.warningBackground}
           disabled={played || startTimer}
           onPress={() => {
+            reset()
             props.navigation.pop()
           }}
           style={{
             alignSelf: 'stretch',
           }}
         >
-          رجوع
+          إنهاء اللعبة
         </Button>
 
         {!startTimer && !played ? (
           <Button
+            icon="arrow-right-drop-circle-outline"
             mode="contained"
             theme={{ roundness: 0 }}
           color={Colors.submit}
@@ -207,7 +218,11 @@ function GamesScreen(props) {
           </Button>
         ) : (
         <Button
-          icon="arrow-forward"
+          icon={() => <IconButton
+            icon={{ source: 'arrow-right', direction: 'rtl' }}
+            style={{ padding: 0, margin: 0}}
+            color='white'
+          />}
           mode="contained"
           color={Colors.submit}
           theme={{ roundness: 0 }}

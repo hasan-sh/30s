@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
-
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation-stack'
+ 
 import TabBarIcon from '../components/TabBarIcon'
 
 import HomeScreen from '../screens/HomeScreen'
@@ -15,7 +15,7 @@ import Colors from '../constants/Colors'
 const HomeStack = createStackNavigator(
   {
     Home: { screen: HomeScreen, navigationOptions: {
-      header: null,
+      headerShown: false,
     } },
     About: {
       screen: AboutScreen,
@@ -48,22 +48,21 @@ const GameStack = createStackNavigator(
         tabBarIcon: ({ focused }) => (
           <TabBarIcon focused={focused} name="games" />
         ),
-        
+        headerTitleAlign: 'center',
         headerTintColor: Colors.tintColor,
         headerStyle: {
           backgroundColor: Colors.tabBar,
         },
+        headerLeft: () => <></> 
       },
     },
     Status: {
       screen: StatusScreen,
       navigationOptions: {
         title: 'النتائج',
+        headerTitleAlign: 'center',
       },
     },
-  },
-  {
-    headerLayoutPreset: 'center',
   }
 )
 
@@ -79,9 +78,11 @@ export default createStackNavigator(
   },
   {
     initialRouteName: 'Home',
-    headerBackTitleVisible: true,
     tabBarOptions: {
       // showLabel: false,
+    },
+    navigationOptions: {
+      headerBackTitleVisible: true,
     },
     headerMode: 'none',
   }

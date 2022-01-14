@@ -16,6 +16,11 @@ import { List, Button, Title } from 'react-native-paper'
 import TeamListItem from '../components/TeamListItem'
 import { Context } from '../state'
 import Colors from '../constants/Colors'
+// import { InterstitialAdManager } from 'react-native-fbads'
+
+// InterstitialAdManager.showAd("767289760737965_767290920737849")
+//   .then(didClick => {console.log('Done! ', didClick)})
+//   .catch(error => {console.log('Error! ', error)});
 
 function HomeScreen(props) {
   const [
@@ -28,6 +33,8 @@ function HomeScreen(props) {
   const [showButton, setShowButton] = useState(true)
 
   useEffect(() => {
+    // InterstitialAdManager.showPreloadedAd(placementId)
+
     // props.navigation.navigate('About')
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -113,7 +120,7 @@ function HomeScreen(props) {
             ))}
           </KeyboardAvoidingView>
           <Button
-            icon="add-circle"
+            icon="account-plus"
             mode="contained"
             disabled={addingDisabled}
             onPress={() => {
@@ -128,7 +135,7 @@ function HomeScreen(props) {
       {showButton && (
         <React.Fragment>
           <Button
-            icon="build"
+            icon="cog"
             mode="contained"
             theme={{ roundness: 0 }}
             onPress={() => {
@@ -141,7 +148,7 @@ function HomeScreen(props) {
             الإعدادات
           </Button>
           <Button
-            icon="arrow-forward"
+            icon="google-controller"
             mode="contained"
             color={Colors.submit}
             theme={{ roundness: 0 }}
@@ -155,7 +162,7 @@ function HomeScreen(props) {
               padding: 5,
             }}
           >
-            إبدأ اللعبة
+            {(addingDisabled || !canStart) ? "أضف أكثر من فريق واحد للبدء" : "إبدأ اللعبة" }
           </Button>
         </React.Fragment>
       )}
