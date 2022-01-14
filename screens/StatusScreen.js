@@ -5,6 +5,7 @@ import { Button, DataTable, Title } from 'react-native-paper'
 
 import { Context } from '../state'
 import Colors from '../constants/Colors'
+import { AdView } from '../components/AdView'
 
 function StatusScreen(props) {
   const [
@@ -18,6 +19,7 @@ function StatusScreen(props) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+        <AdView type="image" media={false} />
         {/* {!winner && (
           <View
             style={{

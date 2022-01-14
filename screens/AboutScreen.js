@@ -3,9 +3,11 @@ import { StyleSheet, ScrollView } from 'react-native'
 import MarkDown from 'react-native-markdown-renderer'
 
 import About from '../About'
+import { AdView } from '../components/AdView'
 
 const AboutScreen = () => (
   <ScrollView style={{ paddingLeft: 15 }}>
+    <AdView type="image" media={false} />
     <MarkDown style={markdownStyles}>{About}</MarkDown>
   </ScrollView>
 )
