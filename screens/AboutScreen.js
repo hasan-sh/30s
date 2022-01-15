@@ -1,15 +1,17 @@
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
-import MarkDown from 'react-native-markdown-renderer'
+import { StyleSheet, ScrollView, SafeAreaView } from 'react-native'
+import MarkDown from 'react-native-markdown-display'
 
 import About from '../About'
 import { AdView } from '../components/AdView'
 
 const AboutScreen = () => (
-  <ScrollView style={{ paddingLeft: 15 }}>
-    <AdView type="image" media={false} />
-    <MarkDown style={markdownStyles}>{About}</MarkDown>
-  </ScrollView>
+  <SafeAreaView>
+    <ScrollView style={{ paddingLeft: 15 }}>
+      <AdView type="image" media={false} />
+      <MarkDown style={markdownStyles}>{About}</MarkDown>
+    </ScrollView>
+  </SafeAreaView>
 )
 
 export default AboutScreen
