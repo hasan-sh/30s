@@ -1,5 +1,6 @@
 import terms from '../terms2'
 import { QUESTIONS_LIMIT } from '../constants/Questions'
+import { Alert } from 'react-native'
 
 let playingTeamIndex = 0
 export function getPlayingTeamGen(totalLength) {
@@ -71,4 +72,29 @@ export function initialTeam(fromTerms = terms.philosophers) {
     points: 0,
   }
   return team
+}
+
+// TODO: make the following funtion reuasble if needed!
+export function askPlayer(type, cb, name='') {
+  if (type === 'chooseType') {
+      // const title = 'اختر نوع اللعبة';
+      const message = 'أونلاين مع الأصدقاء, وفردي للعب محليّاً';
+      const buttons = [
+        { text: 'محلّي (أوفلاين)', onPress: () => cb(false), },
+        { text: 'مع أحد (أونلاين)', onPress: () => cb(true), }
+      ];
+      Alert.alert('', message, buttons);
+    }
+    else if (type === 'notify') {
+      const message = `"${name}" يريد أن يلعب معك!`;
+      const buttons = [
+        {
+          text: 'قبول', onPress: () => cb(true)
+        },
+        {
+          text: 'رفض', onPress: () => cb(false)
+        }
+      ];
+      Alert.alert('', message, buttons);
+    }
 }

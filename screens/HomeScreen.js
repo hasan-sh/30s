@@ -9,22 +9,17 @@ import {
   Keyboard,
 } from 'react-native'
 
-// import IntroImageSrc from '../assets/images/intro.jpg'
-
 import { List, Button, Title } from 'react-native-paper'
 
 import TeamListItem from '../components/TeamListItem'
 import { Context } from '../state'
 import Colors from '../constants/Colors'
-// import { InterstitialAdManager } from 'react-native-fbads'
-
-// InterstitialAdManager.showAd("767289760737965_767290920737849")
-//   .then(didClick => {console.log('Done! ', didClick)})
-//   .catch(error => {console.log('Error! ', error)});
+import { GAME_TYPE } from '../constants/Questions'
+import DisableBackButton from '../components/DisableBackButton'
 
 function HomeScreen(props) {
   const [
-    { teams, canStart, playingTeamIndex },
+    { teams, canStart, playingTeamIndex, gameType },
     { addTeam, updateTeam, setCanStart, setPlayingTeamIndex, removeTeam },
   ] = React.useContext(Context)
 
@@ -71,6 +66,7 @@ function HomeScreen(props) {
 
   return (
     <View style={styles.container}>
+      <DisableBackButton disable={true} />
       <View style={styles.welcomeContainer}>
         {/* <Image source={IntroImageSrc} style={styles.welcomeImage} /> */}
         <Title style={styles.getStartedText}>
@@ -122,7 +118,7 @@ function HomeScreen(props) {
           <Button
             icon="account-plus"
             mode="contained"
-            disabled={addingDisabled}
+            disabled={addingDisabled || gameType !== GAME_TYPE}
             onPress={() => {
               addTeam({})
               setAddingDisabled(true)

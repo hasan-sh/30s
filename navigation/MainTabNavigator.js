@@ -4,6 +4,7 @@ import { createStackNavigator, createSwitchNavigator } from 'react-navigation-st
  
 import TabBarIcon from '../components/TabBarIcon'
 
+import InitialScreen from '../screens/InitialScreen'
 import HomeScreen from '../screens/HomeScreen'
 import GamesScreen from '../screens/GamesScreen'
 import StatusScreen from '../screens/StatusScreen'
@@ -14,7 +15,14 @@ import Colors from '../constants/Colors'
 
 const HomeStack = createStackNavigator(
   {
-    Home: { screen: HomeScreen, navigationOptions: {
+    Initial: {
+      screen: InitialScreen, 
+      navigationOptions: {
+        headerTitleAlign:'center',
+        title: 'شاشة البدء'
+      }
+    },
+    Landing: { screen: HomeScreen, navigationOptions: {
       headerShown: false,
     } },
     About: {
@@ -31,6 +39,7 @@ const HomeStack = createStackNavigator(
     },
   },
   {
+    initialRouteName: 'Initial',
     // headerMode: 'none',
   }
 )

@@ -1,3 +1,6 @@
+import firestore from '@react-native-firebase/firestore';
+import { GAME_TYPE } from '../constants/Questions';
+
 import {
   getQuestions,
   getIndex,
@@ -73,10 +76,31 @@ const reset = state => {
   state.teams = [initialTeam(terms.adjectives)]
   state.questions = []
   state.playingTeamIndex = null
+  state.matchId = null
+  state.gameType = GAME_TYPE
 }
 
 export const timerActions = {
   startTimer: state => {},
+}
+
+export const setGameType = (state, type) => {
+  state.gameType = type;
+}
+
+export const playWith = (state, other) => {
+  console.log(other, state.currentPlayer) 
+  state.matchId = `${state.currentPlayer.ref.id}_${other.ref.id}`
+
+  state.currentPlayer.ref.update({calling: other.id}).then(() => console.log('calling other.'))
+
+  firestore()
+    .doc(`matches/${state.matchId}`)
+    .set({
+      first: state.currentPlayer,
+      second: other,
+    })
+    .then((d) => console.log('Created initial match.'))
 }
 
 export default {
@@ -92,4 +116,6 @@ export default {
   setWinningLimit,
   setTime,
   reset,
+  setGameType,
+  playWith,
 }
