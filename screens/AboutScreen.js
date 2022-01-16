@@ -3,12 +3,12 @@ import { StyleSheet, ScrollView, SafeAreaView } from 'react-native'
 import MarkDown from 'react-native-markdown-display'
 
 import About from '../About'
-import { AdView } from '../components/AdView'
+import { BannerAdView } from '../components/AdView'
 
 const AboutScreen = () => (
   <SafeAreaView>
+    <BannerAdView type="image" media={false} />
     <ScrollView style={{ paddingLeft: 15 }}>
-      <AdView type="image" media={false} />
       <MarkDown style={markdownStyles}>{About}</MarkDown>
     </ScrollView>
   </SafeAreaView>

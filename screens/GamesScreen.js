@@ -10,6 +10,7 @@ import Timer from '../components/Timer'
 import { allQuestionsAnswered } from '../helpers'
 import { VIBRATE_DURATION_PATTERN } from '../constants/Questions'
 import DisableBackButton from '../components/DisableBackButton';
+import { InterstitialAdView } from '../components/AdView'
 
 const DEFAULT_ERROR_MESSAGE = ' لايوجد أسئلة في الوقت الحالي, هل لديك فريق؟'
 
@@ -114,6 +115,7 @@ function GamesScreen(props) {
         >
           نتائج
         </Button>
+        <InterstitialAdView type="image" media={false} />
       </View>
     )
   }
@@ -142,13 +144,13 @@ function GamesScreen(props) {
         )}
         {!errorMessage && (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: count < 5 ? 'red' : 'blue' }}>
+            <Text style={{ color: count < 6 ? 'red' : 'blue' }}>
               {played
                 ? `
               الوقت النهائي ${count} ثانية
               `
                 : `
-              الوقت ${count} ثانية
+              ${count} ثانية
               `}
             </Text>
           </View>

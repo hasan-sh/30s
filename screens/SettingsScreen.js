@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { Picker } from '@react-native-community/picker'
 import { Divider } from 'react-native-paper'
 import { Context } from '../state'
-import { AdView } from '../components/AdView'
+import { InterstitialAdView } from '../components/AdView'
 
 const SettingsScreen = () => {
   const [
@@ -20,7 +20,7 @@ const SettingsScreen = () => {
         alignItems: 'center',
       }}
     >
-      <AdView type="image" media={false} />
+      <InterstitialAdView type="image" media={false} />
       <View
         style={{
           flexDirection: 'row',
@@ -81,7 +81,6 @@ const SettingsScreen = () => {
           <Picker.Item label="25 نقطة" value={25} />
         </Picker>
       </View>
-      <AdView type="image" media={false} />
     </View>
   )
 }
