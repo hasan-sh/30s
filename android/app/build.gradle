@@ -142,6 +142,12 @@ android {
         }
     }
     signingConfigs {
+        debug {
+            storeFile rootProject.file('debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
         release {
             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
                 storeFile file(MYAPP_UPLOAD_STORE_FILE)
@@ -194,7 +200,6 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation project(':@react-native-community_picker')
 
     // implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     implementation 'com.google.android.gms:play-services-ads:20.5.0'
