@@ -54,6 +54,24 @@ export default function StoreContext({ children }) {
     return subscriber; // unsubscribe on unmount
   }, []);
 
+  useEffect(() => {
+    if (!state.matchId && state.currentPlayer) {
+      console.log('MATCH_ONLINE: subscribing for: ', state.currentPlayer.id)
+      const subscriber = firestore()
+        .collection('matches')
+        // .doc()
+        .onSnapshot(snapshot => {
+            snapshot.forEach(doc => {
+              if (doc.id.includes(state.currentPlayer.id)) {
+                console.log('Player is in a match: ', doc.id, doc.data())
+                setState({ ...state, match: doc.data(), matchId: snapshot.id })
+              }
+            })
+        });
+
+        return subscriber;
+    }
+  }, [state.currentPlayer])
 
   const immerActions = {}
   Object.keys(actions).forEach(key => {

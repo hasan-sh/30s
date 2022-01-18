@@ -7,6 +7,7 @@ import {
   View,
   KeyboardAvoidingView,
   Keyboard,
+  SafeAreaView,
 } from 'react-native'
 
 import { List, Button, Title } from 'react-native-paper'
@@ -65,7 +66,7 @@ function HomeScreen(props) {
   }, [teams])
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <DisableBackButton disable={true} />
       <View style={styles.welcomeContainer}>
         {/* <Image source={IntroImageSrc} style={styles.welcomeImage} /> */}
@@ -106,9 +107,12 @@ function HomeScreen(props) {
                     return removeTeam(id)
                   }
                   if (exists) return setError('هذا الإسم مستخدم مسبقاً!')
-                  updateTeam({ name, id })
+                  updateTeam({ ...team, name, id })
                 }}
                 removeTeam={id => {
+                  if (gameType !== GAME_TYPE) {
+                    return setError('لا تستطيع حذف الفريق.')
+                  }
                   setAddingDisabled(false)
                   removeTeam(id)
                 }}
@@ -162,7 +166,7 @@ function HomeScreen(props) {
           </Button>
         </React.Fragment>
       )}
-    </View>
+    </SafeAreaView>
   )
 }
 

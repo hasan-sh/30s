@@ -8,7 +8,7 @@ import { Context } from '../state'
 import QuestionsView from '../components/QuestionView'
 import Timer from '../components/Timer'
 import { allQuestionsAnswered } from '../helpers'
-import { VIBRATE_DURATION_PATTERN } from '../constants/Questions'
+import { GAME_TYPE, VIBRATE_DURATION_PATTERN } from '../constants/Questions'
 import DisableBackButton from '../components/DisableBackButton';
 import { InterstitialAdView } from '../components/AdView'
 
@@ -25,6 +25,8 @@ function GamesScreen(props) {
       playingTeamIndex,
       winningLimit,
       canStart,
+      gameType,
+      currentPlayer,
     },
     { generateQuestions, setQuestionsStatus, setStarted, reset },
   ] = React.useContext(Context)
@@ -85,6 +87,8 @@ function GamesScreen(props) {
           mode="contained"
           theme={{ roundness: 0 }}
           onPress={() => {
+            // TODO: create a separate action gameWon(team) and reset from there.
+            // + do firebase needed logic.
             reset()
             props.navigation.pop()
           }}
@@ -159,7 +163,7 @@ function GamesScreen(props) {
         <QuestionsView
           questions={questions}
           questionsStatus={questionsStatus}
-          show={startTimer || played}
+          show={(startTimer || played) && (gameType === GAME_TYPE ? true : currentPlayer.playing)}
           played={played}
           setCheck={setQuestionsStatus}
           playingTeamIndex={playingTeamIndex}
