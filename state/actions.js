@@ -105,8 +105,17 @@ export const timerActions = {
   startTimer: state => {},
 }
 
+export const setAttribute = (state, attr, payload) => {
+  console.log('setting ', attr, ' with ', payload)
+  state[attr] = payload;
+}
+
 export const setGameType = (state, type) => {
   state.gameType = type;
+}
+
+export const setCurrentPlayer = (state, player) => {
+  state.currentPlayer = player;
 }
 
 // TODO: fix asyncronous possible issues (i.e. await promises)
@@ -117,15 +126,16 @@ export const playWith = (state, other) => {
   state.currentPlayer.ref.update({calling: other.id, currentMatch: state.matchId}).then(() => console.log('calling other.'))
   other.ref.update({currentMatch: state.matchId}).then(() => console.log('calling other.'))
   const match = {
-      first: state.currentPlayer,
-      second: other,
+      first: state.currentPlayer.ref,
+      second: other.ref,
+      status: 'waiting', // waiting, started, or finished.
   }
   firestore()
     .doc(`matches/${state.matchId}`)
     .set(match)
     .then(() => {
-      state.teams = [state.currentPlayer, other]
-      state.match = match
+      // state.teams = [state.currentPlayer, other]
+      // state.match = match
       console.log('Created initial match.')
     })
     .catch(e => {
@@ -147,6 +157,8 @@ export default {
   setWinningLimit,
   setTime,
   reset,
+  setAttribute,
   setGameType,
+  setCurrentPlayer,
   playWith,
 }

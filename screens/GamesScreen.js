@@ -166,6 +166,7 @@ function GamesScreen(props) {
           show={(startTimer || played) && (gameType === GAME_TYPE ? true : currentPlayer.playing)}
           played={played}
           setCheck={setQuestionsStatus}
+          canCheck={gameType === GAME_TYPE ? true : currentPlayer.playing}
           playingTeamIndex={playingTeamIndex}
         />
 

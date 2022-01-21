@@ -77,13 +77,13 @@ export function initialTeam(fromTerms = terms.philosophers) {
 // TODO: make the following funtion reuasble if needed!
 export function askPlayer(type, cb, name='') {
   if (type === 'chooseType') {
-      // const title = 'اختر نوع اللعبة';
-      const message = 'أونلاين مع الأصدقاء, وفردي للعب محليّاً';
+      const title = 'اختر نوع اللعبة';
+      const message = 'أونلاين مع الأصدقاء, أو فردي للعب محليّاً';
       const buttons = [
         { text: 'محلّي (أوفلاين)', onPress: () => cb(false), },
         { text: 'مع أحد (أونلاين)', onPress: () => cb(true), }
       ];
-      Alert.alert('', message, buttons);
+      Alert.alert(title, message, buttons);
     }
     else if (type === 'notify') {
       const message = `"${name}" يريد أن يلعب معك!`;

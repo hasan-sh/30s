@@ -15,12 +15,11 @@ export default function InitialScreen({ navigation }) {
     ] = React.useContext(Context)
     const [loading, setLoading] = useState(gameType === GAME_TYPE)
     const [players, setPlayers] = useState(null)
-    console.log(gameType)
+    console.log(gameType, loading)
 
     useEffect(() => setLoading(gameType === GAME_TYPE), [gameType])
     useEffect(() => {
         askPlayer('chooseType', agreed => {
-            console.log('route, ', navigation.state.routeName)
             if (!agreed) {
                 reset(); 
                 navigation.navigate('Landing');
@@ -42,22 +41,31 @@ export default function InitialScreen({ navigation }) {
                     // list all other online users.
                     setPlayers(documentSnapshot.docs);
                     
-                    documentSnapshot.forEach(ss => {
-                        console.log('all players')
-                        console.log(ss.data(), currentPlayer.id)
+                    documentSnapshot.forEach(async ss => {
+                        // console.log('all players')
+                        // console.log(ss.data(), currentPlayer.id)
                         if (ss.data().calling === currentPlayer.id) {
-                            askPlayer('notify', agreed => {
+                            const incomingMatch = firestore().doc(`matches/${ss.ref.id}_${currentPlayer.ref.id}`)
+                            console.log((await incomingMatch.get()).id) 
+                            console.log((await incomingMatch.get()).data()) 
+                            console.log(ss.ref.id,currentPlayer.ref.id)
+                            askPlayer('notify', async agreed => {
                                 if (!agreed) {
-                                    ss.ref.update({ calling: null }).then(() => console.log('I decline others call!'));
-                                    setGameType('local')
+                                    await ss.ref.update({ calling: null })
+                                    console.log('I decline others call!')
+                                    await incomingMatch.delete()
+                                    console.log('Match Deleted.')
                                     setLoading(false)
+                                    setGameType('local')
                                     return;
                                 }
                                 // Current player accepted the invitation
                                 // most logic is in the playWith action.
                                 reset();
+                                await incomingMatch.update({ status: 'started'})
+                                console.log('Match Started.')
                                 setGameType('online')
-                                navigation.navigate('Landing');
+                                setTimeout(()=> navigation.navigate('Landing'), 2000);
 
                             }, ss.data().name);
                         }

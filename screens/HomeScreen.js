@@ -54,6 +54,7 @@ function HomeScreen(props) {
   }, [error])
 
   useEffect(() => {
+    console.log(teams)
     if (teams.length < 2 && canStart) {
       setCanStart(false)
     } else if (teams.length >= 2 && !canStart) {
