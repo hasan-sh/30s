@@ -13,8 +13,8 @@ export function getPlayingTeamGen(totalLength) {
   return playingTeamIndex++
 }
 
-export function allQuestionsAnswered(status, questions, questionLimit) {
-  return questions.every(question => status[question])
+export function allQuestionsAnswered(status, questions, questionLimit, team) {
+  return questions.every(question => status[`${team.round}_${question}`])
 }
 
 export function getIndex(arr, from, identifier) {
@@ -23,13 +23,14 @@ export function getIndex(arr, from, identifier) {
 
 const getRan = n => Math.floor(Math.random() * n)
 
+const hash = {} //used ones; to not repeat them!
 export function getQuestions(limit = QUESTIONS_LIMIT) {
   const output = []
-  const hash = {} //used ones; to not repeat them!
   const keys = Object.keys(terms)
+  console.log(keys)
 
   function getChoice(arr) {
-    if (output.length === limit) return
+    if (output.length === limit) return output
 
     const len = arr ? arr.length : keys.length
     const currArr = arr ? arr : terms[keys[getRan(len)]]
@@ -45,11 +46,11 @@ export function getQuestions(limit = QUESTIONS_LIMIT) {
       // { key: [..], key1: [..], ... }
       const keys1 = Object.keys(currArr)
       const nextArr = currArr[keys1[getRan(keys1.length)]]
-      getChoice(nextArr)
+      return getChoice(nextArr)
     }
 
     if (output.length !== limit) {
-      getChoice()
+      return getChoice()
     }
 
     return output
@@ -57,7 +58,7 @@ export function getQuestions(limit = QUESTIONS_LIMIT) {
   return getChoice()
 }
 
-export function initialTeam(fromTerms = terms.philosophers) {
+export function initialTeam(fromTerms = terms.adjectives) {
   const length = fromTerms.length
   function randomScholar() {
     const randomIndex = Math.floor(Math.random() * length)
@@ -67,9 +68,10 @@ export function initialTeam(fromTerms = terms.philosophers) {
   }
 
   const team = {
-    id: Date.now(),
+    id: Date.now() + Math.random(),
     name: randomScholar(),
     points: 0,
+    round: 0,
   }
   return team
 }

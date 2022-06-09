@@ -9,7 +9,9 @@ import { Divider, Button, IconButton } from 'react-native-paper';
 
 const QuestionsView = (props) => (
     <View style={{ flex: 1 }}>
-        {props.questions.map((question, i) => (
+        {props.questions.map((question, i) => {
+            prop = `${props.team.round}_${question}`  
+            return (
             <View style={{ flex: 1 }} key={i}>
                 <TouchableWithoutFeedback
                     onPress={() => props.show && props.setCheck(question)}
@@ -24,10 +26,10 @@ const QuestionsView = (props) => (
                     >
                         {props.show ? (
                             <React.Fragment>
-                                {props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][question] && (
+                                {props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] && (
                                     <Button icon="check" />
                                 )}
-                                <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][question] ? 'blue' : 'black'}}>{question}</Text>
+                                <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] ? 'blue' : 'black'}}>{question}</Text>
                             </React.Fragment>
                         ) : (
                             <Text>...</Text>
@@ -38,7 +40,9 @@ const QuestionsView = (props) => (
                     <Divider style={{ color: 'black', height: 2 }} />
                 )}
             </View>
-        ))}
+        )
+    }
+        )}
     </View>
 );
 
