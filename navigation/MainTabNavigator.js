@@ -39,7 +39,7 @@ const HomeStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Initial',
+    initialRouteName: 'Landing',
     // headerMode: 'none',
   }
 )
