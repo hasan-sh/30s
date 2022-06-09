@@ -28,13 +28,14 @@ function GamesScreen(props) {
       gameType,
       currentPlayer,
     },
-    { generateQuestions, setQuestionsStatus, setStarted, reset },
+    { generateQuestions, setQuestionsStatus, setStarted, reset, },
   ] = React.useContext(Context)
   const [errorMessage, setErrorMessage] = useState()
   const [startTimer, setStartTimer] = useState()
   const [played, setPlayed] = useState(false)
   const [count, setCount] = useState(time);
 
+  // console.log(teams[playingTeamIndex])
   useEffect(() => {
     if (played) {
       setPlayed(false)
@@ -56,7 +57,7 @@ function GamesScreen(props) {
   }, [canStart])
 
   useEffect(() => {
-    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questions, questionLimit)) {
+    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questions, questionLimit, teams[playingTeamIndex])) {
       done()
     }
   }, [questionsStatus])
@@ -168,6 +169,7 @@ function GamesScreen(props) {
           setCheck={setQuestionsStatus}
           canCheck={gameType === GAME_TYPE ? true : currentPlayer.playing}
           playingTeamIndex={playingTeamIndex}
+          team={teams[playingTeamIndex]}
         />
 
         {errorMessage && (
@@ -209,8 +211,7 @@ function GamesScreen(props) {
             icon="arrow-right-drop-circle-outline"
             mode="contained"
             theme={{ roundness: 0 }}
-          color={Colors.submit}
-          theme={{ roundness: 0 }}
+            color={Colors.submit}
             onPress={() => {
                 setStartTimer(true)
                 setStarted(true)

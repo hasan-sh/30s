@@ -10,7 +10,7 @@ import { BannerAdView } from '../components/AdView'
 function StatusScreen(props) {
   const [
     { teams, playingTeamIndex, canStart, winningLimit },
-    { generateQuestions, setPlayingTeamIndex },
+    { generateQuestions, setPlayingTeamIndex, setRound },
   ] = React.useContext(Context)
 
   // Should go back to previous screen!
@@ -84,6 +84,7 @@ function StatusScreen(props) {
         }}
         disabled={!!winner}
         onPress={() => {
+          setRound()
           setPlayingTeamIndex()
           generateQuestions()
           props.navigation.navigate('Game')
