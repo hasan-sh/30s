@@ -12,7 +12,18 @@ export const initialState = {
   gameType: GAME_TYPE,
   currentPlayer: null,
   matchId: null,
-  teams: [initialTeam()],
+  // teams: [initialTeam(), initialTeam()],
+  teams: [{
+    id: Date.now() + Math.random(),
+    name: 'أسود',
+    points: 0,
+    round: 0,
+  }, {
+    id: Date.now() + Math.random(),
+    name: 'أبيض',
+    points: 0,
+    round: 0,
+  }],
   playingTeamIndex: null,
   started: false,
   questions: [],
@@ -21,6 +32,7 @@ export const initialState = {
   time: TIME,
   questionLimit: QUESTIONS_LIMIT,
   winningLimit: WINNING_LIMIT,
+  round: 0,
 }
 
 export const Context = createContext(initialState)
