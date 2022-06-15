@@ -13,7 +13,7 @@ import FirebaseState from './state/firebase'
 
 const App = () => (
   <StoreContext>
-    <FirebaseState />
+    {/* <FirebaseState /> */}
     <PaperProvider>
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}

@@ -10,7 +10,7 @@ import {
 import terms from '../terms2'
 
 const addTeam = (state, team) => {
-  state.teams.push({ id: Date.now(), ...team })
+  state.teams.push({ id: Date.now(), round: 0, ...team })
 }
 
 const updateTeam = (state, { name, id, ...team }) => {
@@ -59,9 +59,9 @@ const setStarted = (state, started) => {
 const setQuestionsStatus = (state, text) => {
   const { questionsStatus, teams, playingTeamIndex } = state
   questionsStatus[playingTeamIndex] = questionsStatus[playingTeamIndex] || {}
-  questionsStatus[playingTeamIndex][text] = !questionsStatus[playingTeamIndex][
-    text
-  ]
+  round = teams[playingTeamIndex].round
+  prop = `${round}_${text}`
+  questionsStatus[playingTeamIndex][prop] = !questionsStatus[playingTeamIndex][prop]
   const keys = Object.keys(questionsStatus[playingTeamIndex])
   const points = keys.filter(q => questionsStatus[playingTeamIndex][q]).length
   teams[playingTeamIndex].points = points
@@ -81,7 +81,8 @@ const setTime = (state, time) => {
 
 const reset = state => {
   state.questionsStatus = {}
-  state.teams = [initialTeam(terms.adjectives)]
+  // state.teams = [initialTeam(terms.adjectives)]
+  state.teams = state.teams.map(team => ({name: team.name, id: team.id, round: 0}))
   state.questions = []
   state.playingTeamIndex = null
   // TODO: check if matchId, then delete that match.
@@ -116,6 +117,10 @@ export const setGameType = (state, type) => {
 
 export const setCurrentPlayer = (state, player) => {
   state.currentPlayer = player;
+}
+
+export const setRound = (state) => {
+  state.teams[state.playingTeamIndex].round += 1
 }
 
 // TODO: fix asyncronous possible issues (i.e. await promises)
@@ -160,5 +165,6 @@ export default {
   setAttribute,
   setGameType,
   setCurrentPlayer,
+  setRound,
   playWith,
 }

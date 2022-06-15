@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "164565465795",
+    "firebase_url": "https://thirtysecond-7f6ad-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "thirtysecond-7f6ad",
+    "storage_bucket": "thirtysecond-7f6ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164565465795:android:cedd77c40c0115136f4076",
+        "android_client_info": {
+          "package_name": "com.thirtyseconds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164565465795-snhmqi42bicf6f3rua6v6vjeuk5g0qft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvZfd4PPM1RegJfuvOOwm9wf_iW606G-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164565465795-snhmqi42bicf6f3rua6v6vjeuk5g0qft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

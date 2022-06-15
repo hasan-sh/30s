@@ -7,10 +7,11 @@ import Colors from '../constants/Colors'
 import { Context } from '../state'
 import QuestionsView from '../components/QuestionView'
 import Timer from '../components/Timer'
-import { allQuestionsAnswered } from '../helpers'
+import { allQuestionsAnswered, askPlayer } from '../helpers'
 import { GAME_TYPE, VIBRATE_DURATION_PATTERN } from '../constants/Questions'
 import DisableBackButton from '../components/DisableBackButton';
 import { InterstitialAdView } from '../components/AdView'
+import { playSound } from '../helpers/sound'
 
 const DEFAULT_ERROR_MESSAGE = ' لايوجد أسئلة في الوقت الحالي, هل لديك فريق؟'
 
@@ -28,13 +29,14 @@ function GamesScreen(props) {
       gameType,
       currentPlayer,
     },
-    { generateQuestions, setQuestionsStatus, setStarted, reset },
+    { generateQuestions, setQuestionsStatus, setStarted, reset, },
   ] = React.useContext(Context)
   const [errorMessage, setErrorMessage] = useState()
   const [startTimer, setStartTimer] = useState()
   const [played, setPlayed] = useState(false)
   const [count, setCount] = useState(time);
 
+  // console.log(teams[playingTeamIndex])
   useEffect(() => {
     if (played) {
       setPlayed(false)
@@ -56,12 +58,16 @@ function GamesScreen(props) {
   }, [canStart])
 
   useEffect(() => {
-    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questions, questionLimit)) {
+    if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questions, questionLimit, teams[playingTeamIndex])) {
       done()
+      playSound({}, true) // pause if all questions are checked
     }
   }, [questionsStatus])
 
   useEffect(() => {
+    if (count === 2) {
+      playSound({name: 'countdown', type: 'wav'}, played)
+    }
     if (count === 0) {
       done();
       Vibration.vibrate(VIBRATE_DURATION_PATTERN)
@@ -75,9 +81,10 @@ function GamesScreen(props) {
   const winner = teams.find(team => team.points >= winningLimit)
   if (winner) {
     // setStarted(false)
+    playSound({name: 'win', type: 'wav'})
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>{winner.name} الفائز</Text>
+        <Text><Text style={{fontSize: 28}}>{winner.name}</Text> الفائز</Text>
         <Button
           icon={() => <IconButton
             icon={{ source: 'arrow-right', direction: 'rtl' }}
@@ -89,6 +96,7 @@ function GamesScreen(props) {
           onPress={() => {
             // TODO: create a separate action gameWon(team) and reset from there.
             // + do firebase needed logic.
+            // playSound({}, true)
             reset()
             props.navigation.pop()
           }}
@@ -109,6 +117,7 @@ function GamesScreen(props) {
           color={Colors.submit}
           theme={{ roundness: 0 }}
           onPress={() => {
+            // playSound({}, true)
             props.navigation.navigate('Status')
           }}
           style={{
@@ -168,6 +177,7 @@ function GamesScreen(props) {
           setCheck={setQuestionsStatus}
           canCheck={gameType === GAME_TYPE ? true : currentPlayer.playing}
           playingTeamIndex={playingTeamIndex}
+          team={teams[playingTeamIndex]}
         />
 
         {errorMessage && (
@@ -194,8 +204,12 @@ function GamesScreen(props) {
           // color={Colors.warningBackground}
           disabled={played || startTimer}
           onPress={() => {
-            reset()
-            props.navigation.pop()
+            askPlayer('', agreed => {
+              if (agreed){
+                reset()
+                props.navigation.pop()
+              }
+            })
           }}
           style={{
             alignSelf: 'stretch',
@@ -209,8 +223,7 @@ function GamesScreen(props) {
             icon="arrow-right-drop-circle-outline"
             mode="contained"
             theme={{ roundness: 0 }}
-          color={Colors.submit}
-          theme={{ roundness: 0 }}
+            color={Colors.submit}
             onPress={() => {
                 setStartTimer(true)
                 setStarted(true)
