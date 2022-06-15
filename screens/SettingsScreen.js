@@ -85,7 +85,7 @@ const SettingsScreen = ({ navigation }) => {
       </View>
       <Divider style={{ color: 'black', height: 2, width: '100%' }} />
 
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -106,12 +106,7 @@ const SettingsScreen = ({ navigation }) => {
           <Picker.Item label="محلي" value={'local'} />
           <Picker.Item label="أونلاين" value={'online'} />
         </Picker>
-        {/* <IconButton
-            icon={{ source: 'network-outline', direction: 'rtl' }}
-            style={{ padding: 0, margin: 0}}
-            color='gray'
-          /> */}
-      </View>
+      </View> */}
     </View>
   )
 }

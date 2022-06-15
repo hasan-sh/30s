@@ -16,6 +16,7 @@ function StatusScreen(props) {
   // Should go back to previous screen!
   if (!canStart) props.navigation.pop()
   const winner = teams.find(team => team.points >= winningLimit)
+  const sortedTeams = teams.map(t => t).sort((a, b) => b.points - a.points)
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
@@ -42,7 +43,7 @@ function StatusScreen(props) {
             <DataTable.Title numeric>نقاط</DataTable.Title>
           </DataTable.Header>
 
-          {teams.map((team, i) => (
+          {sortedTeams.map((team, i) => (
             <DataTable.Row
               key={i}
               style={{
@@ -50,7 +51,7 @@ function StatusScreen(props) {
               }}
             >
               <DataTable.Cell>{team.name}</DataTable.Cell>
-              <DataTable.Cell numeric>{team.points}</DataTable.Cell>
+              <DataTable.Cell numeric>{team.points || 0}</DataTable.Cell>
             </DataTable.Row>
           ))}
         </DataTable>

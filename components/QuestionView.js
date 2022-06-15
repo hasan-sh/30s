@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     View,
@@ -6,15 +6,28 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 import { Divider, Button, IconButton } from 'react-native-paper';
+import { playSound } from '../helpers/sound';
 
-const QuestionsView = (props) => (
+const QuestionsView = (props) => {
+  const [clickedAfterCompletion, setClickedAfterCompletion] = useState([])
+    
+    return (
     <View style={{ flex: 1 }}>
         {props.questions.map((question, i) => {
             prop = `${props.team.round}_${question}`  
             return (
             <View style={{ flex: 1 }} key={i}>
                 <TouchableWithoutFeedback
-                    onPress={() => props.show && props.setCheck(question)}
+                    onPress={() => {
+                        if (props.show) {
+                            props.setCheck(question)
+                            if (props.played) {
+                                playSound({name: 'wrongbuzz', type: 'wav'})
+                                setClickedAfterCompletion(arr => [...arr, question])
+                            } 
+
+                        }
+                    }}
                 >
                     <View
                         style={{
@@ -27,9 +40,12 @@ const QuestionsView = (props) => (
                         {props.show ? (
                             <React.Fragment>
                                 {props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] && (
-                                    <Button icon="check" />
+                                    <Button icon="check" color={clickedAfterCompletion.includes(question) && 'green'} />
                                 )}
-                                <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] ? 'blue' : 'black'}}>{question}</Text>
+                                {clickedAfterCompletion.includes(question) ? 
+                                    <Text style={{color: 'green'}}>{question}</Text> : 
+                                    <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] ? 'blue' : 'black'}}>{question}</Text>}
+                                
                             </React.Fragment>
                         ) : (
                             <Text>...</Text>
@@ -44,6 +60,7 @@ const QuestionsView = (props) => (
     }
         )}
     </View>
-);
+)}
+
 
 export default QuestionsView;

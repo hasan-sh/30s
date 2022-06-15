@@ -98,5 +98,17 @@ export function askPlayer(type, cb, name='') {
         }
       ];
       Alert.alert('', message, buttons);
+    } else {
+      const message = 'هل فعلاً تريد فعل ذلك؟';
+      const buttons = [
+        {
+          text: 'نعم', onPress: () => cb(true)
+        },
+        {
+          text: 'لا', onPress: () => cb(false)
+        }
+      ];
+      Alert.alert('', message, buttons);
+
     }
 }
