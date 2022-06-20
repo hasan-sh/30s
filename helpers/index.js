@@ -1,5 +1,6 @@
 import terms from '../terms2'
 import { QUESTIONS_LIMIT } from '../constants/Questions'
+import { Alert } from 'react-native'
 
 let playingTeamIndex = 0
 export function getPlayingTeamGen(totalLength) {
@@ -12,8 +13,8 @@ export function getPlayingTeamGen(totalLength) {
   return playingTeamIndex++
 }
 
-export function allQuestionsAnswered(status, questions, questionLimit) {
-  return questions.every(question => status[question])
+export function allQuestionsAnswered(status, questions, questionLimit, team) {
+  return questions.every(question => status[`${team.round}_${question}`])
 }
 
 export function getIndex(arr, from, identifier) {
@@ -22,13 +23,14 @@ export function getIndex(arr, from, identifier) {
 
 const getRan = n => Math.floor(Math.random() * n)
 
+const hash = {} //used ones; to not repeat them!
 export function getQuestions(limit = QUESTIONS_LIMIT) {
   const output = []
-  const hash = {} //used ones; to not repeat them!
   const keys = Object.keys(terms)
+  console.log(keys)
 
   function getChoice(arr) {
-    if (output.length === limit) return
+    if (output.length === limit) return output
 
     const len = arr ? arr.length : keys.length
     const currArr = arr ? arr : terms[keys[getRan(len)]]
@@ -44,11 +46,11 @@ export function getQuestions(limit = QUESTIONS_LIMIT) {
       // { key: [..], key1: [..], ... }
       const keys1 = Object.keys(currArr)
       const nextArr = currArr[keys1[getRan(keys1.length)]]
-      getChoice(nextArr)
+      return getChoice(nextArr)
     }
 
     if (output.length !== limit) {
-      getChoice()
+      return getChoice()
     }
 
     return output
@@ -56,7 +58,7 @@ export function getQuestions(limit = QUESTIONS_LIMIT) {
   return getChoice()
 }
 
-export function initialTeam(fromTerms = terms.philosophers) {
+export function initialTeam(fromTerms = terms.adjectives) {
   const length = fromTerms.length
   function randomScholar() {
     const randomIndex = Math.floor(Math.random() * length)
@@ -66,9 +68,47 @@ export function initialTeam(fromTerms = terms.philosophers) {
   }
 
   const team = {
-    id: Date.now(),
+    id: Date.now() + Math.random(),
     name: randomScholar(),
     points: 0,
+    round: 0,
   }
   return team
+}
+
+// TODO: make the following funtion reuasble if needed!
+export function askPlayer(type, cb, name='') {
+  if (type === 'chooseType') {
+      const title = 'اختر نوع اللعبة';
+      const message = 'أونلاين مع الأصدقاء, أو فردي للعب محليّاً';
+      const buttons = [
+        { text: 'محلّي (أوفلاين)', onPress: () => cb(false), },
+        { text: 'مع أحد (أونلاين)', onPress: () => cb(true), }
+      ];
+      Alert.alert(title, message, buttons);
+    }
+    else if (type === 'notify') {
+      const message = `"${name}" يريد أن يلعب معك!`;
+      const buttons = [
+        {
+          text: 'قبول', onPress: () => cb(true)
+        },
+        {
+          text: 'رفض', onPress: () => cb(false)
+        }
+      ];
+      Alert.alert('', message, buttons);
+    } else {
+      const message = 'هل فعلاً تريد فعل ذلك؟';
+      const buttons = [
+        {
+          text: 'نعم', onPress: () => cb(true)
+        },
+        {
+          text: 'لا', onPress: () => cb(false)
+        }
+      ];
+      Alert.alert('', message, buttons);
+
+    }
 }

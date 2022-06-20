@@ -1,0 +1,7 @@
+# ubuntu
+clean gradle:
+chmod +x gradlew
+sudo ./gradlew clean
+
+# do all
+sudo chmod -R 777 .

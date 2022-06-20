@@ -1,10 +1,11 @@
-import { getAlmaanyWords, getRandomWords } from './lib/scraper';
+import { getAlmaanyWords, getKalmasoftWords, getRandomWords } from './lib/scraper';
 import express from 'express';
-import db from './lib/db';
+import db from './db.js';
 
 const app = express();
 
 app.get('/almaany', async (req, res) => {
+    console.log(req.query)
     if (!req.query.category) return res.status(400).send('Bad Request');
 
     const category = req.query.category;
@@ -21,6 +22,7 @@ app.get('/almaany', async (req, res) => {
 
 app.get('/random', async (req, res) => {
     const random = await getRandomWords();
+    console.log('RANDOM', random)
     const elements = random.map((e) => `<h1>${e}</h1>`).join('');
 
     const value = db.get('random').value();
@@ -36,6 +38,25 @@ app.get('/random', async (req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.send(elements);
 });
+
+
+app.get('/kalma', async (req, res) => {
+    const url = 'http://www.kalmasoft.com/KLEX/adcmedic.htm';
+    const category = 'medic'
+
+    const words = await getKalmasoftWords(url);
+    console.log('Kalma', words)
+    const elements = words.map((e) => `<h1>${e}</h1>`).join('');
+
+    db.set(`kalma.${category}`, words)
+        .flatten()
+        .write();
+
+    res.setHeader('Content-Type', 'text/html');
+    res.send(elements);
+    
+})
+
 app.set('json spaces', 2);
 app.get('/', (req, res) => {
     const data = db.value();

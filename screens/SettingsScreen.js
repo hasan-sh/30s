@@ -1,14 +1,16 @@
 import React, { useContext } from 'react'
 import { View, Text } from 'react-native'
-import { Picker } from '@react-native-community/picker'
-import { Divider } from 'react-native-paper'
+import { Picker } from '@react-native-picker/picker'
+// import { Picker } from '@react-native-community/picker'
+import { Divider, IconButton } from 'react-native-paper'
 import { Context } from '../state'
-import { AdView } from '../components/AdView'
+import { InterstitialAdView } from '../components/AdView'
+import { GAME_TYPE } from '../constants/Questions'
 
-const SettingsScreen = () => {
+const SettingsScreen = ({ navigation }) => {
   const [
-    { time, questionLimit, winningLimit },
-    { setTime, setQuestionLimit, setWinningLimit },
+    { time, questionLimit, winningLimit, gameType },
+    { setTime, setQuestionLimit, setWinningLimit, setGameType },
   ] = useContext(Context);
 
   return (
@@ -20,7 +22,7 @@ const SettingsScreen = () => {
         alignItems: 'center',
       }}
     >
-      <AdView type="image" media={false} />
+      <InterstitialAdView type="image" media={false} />
       <View
         style={{
           flexDirection: 'row',
@@ -81,7 +83,30 @@ const SettingsScreen = () => {
           <Picker.Item label="25 نقطة" value={25} />
         </Picker>
       </View>
-      <AdView type="image" media={false} />
+      <Divider style={{ color: 'black', height: 2, width: '100%' }} />
+
+      {/* <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ flexGrow: 1 }}>العب أونلاين</Text>
+        <Picker
+          selectedValue={gameType}
+          style={{ height: 50, width: 200 }}
+          onValueChange={itemValue => {
+            setGameType(itemValue)
+            if (itemValue !== GAME_TYPE) {
+              navigation.navigate('Initial')
+            }
+          }}
+        >
+          <Picker.Item label="محلي" value={'local'} />
+          <Picker.Item label="أونلاين" value={'online'} />
+        </Picker>
+      </View> */}
     </View>
   )
 }
