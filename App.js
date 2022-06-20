@@ -9,17 +9,22 @@ import { Provider as PaperProvider, Title } from 'react-native-paper'
 
 import AppNavigator from './navigation/AppNavigator'
 import StoreContext from './state'
+import AgoraContextStore from './state/agora'
 import FirebaseState from './state/firebase'
 
 const App = () => (
   <StoreContext>
-    {/* <FirebaseState /> */}
-    <PaperProvider>
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-    </PaperProvider>
+    <AgoraContextStore>
+      <FirebaseState />
+      {/* <AgoraModule /> */}
+      <PaperProvider>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+      </PaperProvider>
+
+    </AgoraContextStore>
   </StoreContext>
 );
 
