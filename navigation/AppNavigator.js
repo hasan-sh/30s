@@ -1,15 +1,16 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
-// import { createSwitchNavigator } from '@react-navigation/stack';
-import { createAppContainer } from 'react-navigation';
 
 
-import MainTabNavigator from './MainTabNavigator';
+import {
+  NavigationContainer,
+} from '@react-navigation/native';
 
-const AppNavigator = createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-});
+import RootStack from './MainTabNavigator';
 
-export default createAppContainer(AppNavigator);
+
+export default function AppNavigator({ theme }) {
+  return (
+    <NavigationContainer theme={theme}>
+      <RootStack />
+    </NavigationContainer>)
+}
