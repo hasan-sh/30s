@@ -129,8 +129,8 @@ android {
         applicationId "com.thirtyseconds"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
         multiDexEnabled true
     }
     splits {
