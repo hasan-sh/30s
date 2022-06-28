@@ -16,6 +16,7 @@ import AppNavigator from './navigation/AppNavigator'
 import StoreContext from './state'
 import FirebaseState from './state/firebase'
 import { CombinedDarkTheme, CombinedDefaultTheme } from './constants/Theme';
+import ProgressionStoreContext from './state/progression/progression';
 
 const App = () => {
   const scheme = useColorScheme();
@@ -23,13 +24,15 @@ const App = () => {
 
   return (
     <StoreContext >
-      {/* <FirebaseState /> */}
-      <PaperProvider theme={theme}>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <FocusAwareStatusBar barStyle="default" />}
-          <AppNavigator theme={theme} />
-        </View>
-      </PaperProvider>
+      <ProgressionStoreContext >
+        {/* <FirebaseState /> */}
+        <PaperProvider theme={theme}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <FocusAwareStatusBar barStyle="default" />}
+            <AppNavigator theme={theme} />
+          </View>
+        </PaperProvider>
+      </ProgressionStoreContext >
     </StoreContext>
   )
 }
