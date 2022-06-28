@@ -57,7 +57,7 @@ function StatusScreen(props) {
               <DataTable.Cell numeric>{team.points || 0}</DataTable.Cell>
             </DataTable.Row>
           ))}
-          <DataTable.Row borderless>
+          <DataTable.Row borderless style={{borderTopWidth: 2, borderTopColor: colors.border, borderBottomWidth: 0}}>
             <DataTable.Cell>حد الربح</DataTable.Cell>
             <DataTable.Cell numeric>{winningLimit}</DataTable.Cell>
           </DataTable.Row>

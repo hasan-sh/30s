@@ -62,7 +62,8 @@ function GamesScreen(props) {
 
   useEffect(() => {
     if (startTimer && questionsStatus[playingTeamIndex] && allQuestionsAnswered(questionsStatus[playingTeamIndex], questions, questionLimit, teams[playingTeamIndex])) {
-      done()
+      // done()
+      setPlayed(true)
       playSound({}, true) // pause if all questions are checked
     }
   }, [questionsStatus])
@@ -162,7 +163,7 @@ function GamesScreen(props) {
         {!errorMessage && (
           <View style={{ justifyContent: 'center', alignItems: 'center', paddingRight: 45, }}>
             <Text style={{ color: count < 6 || played ? 'red' : colors.primary, fontSize: 20, }}>
-              {played
+              {!startTimer && played
                 ? `
               الوقت النهائي ${count} ثانية
               `
@@ -177,7 +178,7 @@ function GamesScreen(props) {
           questions={questions}
           questionsStatus={questionsStatus}
           show={(startTimer || played) && (gameType === GAME_TYPE ? true : currentPlayer.playing)}
-          played={played}
+          played={!startTimer && played}
           setCheck={setQuestionsStatus}
           canCheck={gameType === GAME_TYPE ? true : currentPlayer.playing}
           playingTeamIndex={playingTeamIndex}
@@ -201,27 +202,42 @@ function GamesScreen(props) {
         )}
       </ScrollView>
       <View>
-        <Button
-          icon="stop-circle-outline"
-          mode="contained"
-          theme={{ roundness: 0 }}
-          // color={Colors.warningBackground}
-          color={colors.notification}
-          disabled={played || startTimer}
-          onPress={() => {
-            askPlayer('', agreed => {
-              if (agreed){
-                reset()
-                props.navigation.pop()
-              }
-            })
-          }}
-          style={{
-            alignSelf: 'stretch',
-          }}
-        >
-          إنهاء اللعبة
-        </Button>
+        {played && startTimer ? (
+          <Button
+            icon="stop-circle-outline"
+            mode="contained"
+            theme={{ roundness: 0 }}
+            color={colors.notification}
+            onPress={done}
+            style={{
+              alignSelf: 'stretch',
+            }}
+          >
+            إنهاء الجولة
+          </Button>
+        ) : (
+          <Button
+            icon="stop-circle-outline"
+            mode="contained"
+            theme={{ roundness: 0 }}
+            // color={Colors.warningBackground}
+            color={colors.notification}
+            disabled={played || startTimer}
+            onPress={() => {
+              askPlayer('', agreed => {
+                if (agreed){
+                  reset()
+                  props.navigation.pop()
+                }
+              })
+            }}
+            style={{
+              alignSelf: 'stretch',
+            }}
+          >
+            إنهاء اللعبة
+          </Button>
+        )}
 
         {!startTimer && !played ? (
           <Button
