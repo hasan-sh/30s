@@ -10,6 +10,8 @@ import {
   SafeAreaView,
 } from 'react-native'
 
+import { useTheme } from '@react-navigation/native';
+
 import { List, Button, Title } from 'react-native-paper'
 
 import TeamListItem from '../components/TeamListItem'
@@ -19,6 +21,7 @@ import { GAME_TYPE } from '../constants/Questions'
 import DisableBackButton from '../components/DisableBackButton'
 
 function HomeScreen(props) {
+  const { colors } = useTheme()
   const [
     { teams, canStart, playingTeamIndex, gameType },
     { addTeam, updateTeam, setCanStart, setPlayingTeamIndex, removeTeam },
@@ -67,22 +70,22 @@ function HomeScreen(props) {
   }, [teams])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{...styles.container, backgroundColor: colors.background}}>
       <DisableBackButton disable={true} />
       <View style={styles.welcomeContainer}>
         {/* <Image source={IntroImageSrc} style={styles.welcomeImage} /> */}
-        <Title style={styles.getStartedText}>
+        <Title style={{...styles.getStartedText, color: colors.text}}>
           أهلاً بك في لعبة ٣٠ ثانية, هنا ستختبر ذكائك بطريقة ممتعة!
         </Title>
         <Button 
           mode="outlined"
-          color='black'
-          // style={styles.getStartedText}
+          color={colors.text}
+          style={{borderColor: colors.border, borderWidth: 2}}
           onPress={() => props.navigation.navigate('About')}
         >إقرأ المزيد</Button>
       </View>
       <ScrollView
-        style={styles.container}
+        style={{...styles.container, backgroundColor: colors.background}}
         contentContainerStyle={{ alignItems: 'center' }}
       >
         <List.Section title="الفرق المنافسة" style={styles.teamList}>
@@ -124,6 +127,7 @@ function HomeScreen(props) {
             icon="account-plus"
             mode="contained"
             disabled={addingDisabled || gameType !== GAME_TYPE}
+            color={colors.primary}
             onPress={() => {
               addTeam({})
               setAddingDisabled(true)
@@ -139,6 +143,7 @@ function HomeScreen(props) {
             icon="cog"
             mode="contained"
             theme={{ roundness: 0 }}
+            color={colors.primary}
             onPress={() => {
               props.navigation.navigate('Settings')
             }}
@@ -151,11 +156,12 @@ function HomeScreen(props) {
           <Button
             icon="google-controller"
             mode="contained"
-            color={Colors.submit}
+            // color={Colors.submit}
+            color={colors.notification}
             theme={{ roundness: 0 }}
             disabled={addingDisabled || !canStart}
             onPress={() => {
-              props.navigation.push('Game')
+              props.navigation.push('Game', {title: teams[playingTeamIndex].name})
             }}
             style={{
               alignSelf: 'stretch',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
     Text,
     View,
@@ -9,6 +10,7 @@ import { Divider, Button, IconButton } from 'react-native-paper';
 import { playSound } from '../helpers/sound';
 
 const QuestionsView = (props) => {
+  const { colors } = useTheme()
   const [clickedAfterCompletion, setClickedAfterCompletion] = useState([])
     
     return (
@@ -17,6 +19,7 @@ const QuestionsView = (props) => {
             prop = `${props.team.round}_${question}`  
             return (
             <View style={{ flex: 1 }} key={i}>
+                    <Divider style={{ color: colors.border, height: 2 }} />
                 <TouchableWithoutFeedback
                     onPress={() => {
                         if (props.show) {
@@ -44,17 +47,16 @@ const QuestionsView = (props) => {
                                 )}
                                 {clickedAfterCompletion.includes(question) ? 
                                     <Text style={{color: 'green'}}>{question}</Text> : 
-                                    <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] ? 'blue' : 'black'}}>{question}</Text>}
+                                    <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] ? colors.primary: colors.text}}>{question}</Text>}
                                 
                             </React.Fragment>
                         ) : (
-                            <Text>...</Text>
+                            <Text style={{color: colors.text}}>...</Text>
                         )}
                     </View>
                 </TouchableWithoutFeedback>
-                {props.questions.length !== i && (
-                    <Divider style={{ color: 'black', height: 2 }} />
-                )}
+                {/* {props.questions.length !== i && ( */}
+                {/* )} */}
             </View>
         )
     }

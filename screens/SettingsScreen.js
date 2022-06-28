@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { View, Text } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
+import { useTheme } from '@react-navigation/native'
 // import { Picker } from '@react-native-community/picker'
 import { Divider, IconButton } from 'react-native-paper'
 import { Context } from '../state'
@@ -8,6 +9,7 @@ import { InterstitialAdView } from '../components/AdView'
 import { GAME_TYPE } from '../constants/Questions'
 
 const SettingsScreen = ({ navigation }) => {
+  const { colors } = useTheme()
   const [
     { time, questionLimit, winningLimit, gameType },
     { setTime, setQuestionLimit, setWinningLimit, setGameType },
@@ -30,10 +32,11 @@ const SettingsScreen = ({ navigation }) => {
           alignItems: 'center',
         }}
       >
-        <Text style={{ flexGrow: 1 }}>وقت الإجابة</Text>
+        <Text style={{ flexGrow: 1, color: colors.text }}>وقت الإجابة</Text>
         <Picker
           selectedValue={time}
-          style={{ height: 50, width: 200 }}
+          style={{ height: 50, width: 200, color: colors.text,  }}
+          dropdownIconColor={colors.text}
           onValueChange={itemValue => setTime(itemValue)}
         >
           <Picker.Item label="30 ثانية" value={30} />
@@ -42,7 +45,7 @@ const SettingsScreen = ({ navigation }) => {
         </Picker>
       </View>
 
-      <Divider style={{ color: 'black', height: 2, width: '100%' }} />
+      <Divider style={{ color: colors.border, height: 2, width: '100%' }} />
 
       <View
         style={{
@@ -51,10 +54,11 @@ const SettingsScreen = ({ navigation }) => {
           alignItems: 'center',
         }}
       >
-        <Text style={{ flexGrow: 1 }}>عدد الخيارات(الأسئلة)</Text>
+        <Text style={{ flexGrow: 1, color: colors.text }}>عدد الخيارات(الأسئلة)</Text>
         <Picker
           selectedValue={questionLimit}
-          style={{ height: 50, width: 200 }}
+          style={{ height: 50, width: 200, color: colors.text, }}
+          dropdownIconColor={colors.text}
           onValueChange={itemValue => setQuestionLimit(itemValue)}
         >
           <Picker.Item label="4 خيارات" value={4} />
@@ -62,7 +66,7 @@ const SettingsScreen = ({ navigation }) => {
           <Picker.Item label="6 خيارات" value={6} />
         </Picker>
       </View>
-      <Divider style={{ color: 'black', height: 2, width: '100%' }} />
+      <Divider style={{ color: colors.border, height: 2, width: '100%' }} />
 
       <View
         style={{
@@ -71,10 +75,11 @@ const SettingsScreen = ({ navigation }) => {
           alignItems: 'center',
         }}
       >
-        <Text style={{ flexGrow: 1 }}>حدْ الربح</Text>
+        <Text style={{ flexGrow: 1, color: colors.text }}>حدْ الربح</Text>
         <Picker
           selectedValue={winningLimit}
-          style={{ height: 50, width: 200 }}
+          style={{ height: 50, width: 200, color: colors.text,  }}
+          dropdownIconColor={colors.text}
           onValueChange={itemValue => setWinningLimit(itemValue)}
         >
           <Picker.Item label="5 نقاط" value={5} />
@@ -83,7 +88,7 @@ const SettingsScreen = ({ navigation }) => {
           <Picker.Item label="25 نقطة" value={25} />
         </Picker>
       </View>
-      <Divider style={{ color: 'black', height: 2, width: '100%' }} />
+      <Divider style={{ color: colors.border, height: 2, width: '100%' }} />
 
       {/* <View
         style={{

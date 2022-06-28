@@ -2,12 +2,14 @@ import React from 'react'
 
 import { ScrollView, StyleSheet, View, Text } from 'react-native'
 import { Button, DataTable, Title } from 'react-native-paper'
+import { useTheme } from '@react-navigation/native'
 
 import { Context } from '../state'
 import Colors from '../constants/Colors'
 import { BannerAdView } from '../components/AdView'
 
 function StatusScreen(props) {
+  const { colors } = useTheme()
   const [
     { teams, playingTeamIndex, canStart, winningLimit },
     { generateQuestions, setPlayingTeamIndex, setRound },
@@ -18,9 +20,9 @@ function StatusScreen(props) {
   const winner = teams.find(team => team.points >= winningLimit)
   const sortedTeams = teams.map(t => t).sort((a, b) => b.points - a.points)
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, backgroundColor: colors.background,}}>
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
-        <BannerAdView type="image" media={false} />
+        <BannerAdView type="image" media={false} showBtn={false} />
         {/* {!winner && (
           <View
             style={{
@@ -47,13 +49,18 @@ function StatusScreen(props) {
             <DataTable.Row
               key={i}
               style={{
-                backgroundColor: i === playingTeamIndex ? 'lightblue' : 'white',
+                backgroundColor: team.id === teams[playingTeamIndex].id ? '#007aff85' : colors.background,
+                // backgroundColor: i === playingTeamIndex && 'lightblue',
               }}
             >
               <DataTable.Cell>{team.name}</DataTable.Cell>
               <DataTable.Cell numeric>{team.points || 0}</DataTable.Cell>
             </DataTable.Row>
           ))}
+          <DataTable.Row borderless>
+            <DataTable.Cell>حد الربح</DataTable.Cell>
+            <DataTable.Cell numeric>{winningLimit}</DataTable.Cell>
+          </DataTable.Row>
         </DataTable>
         <View
           style={{
@@ -68,6 +75,7 @@ function StatusScreen(props) {
         icon="arrow-left"
         mode="contained"
         theme={{ roundness: 0 }}
+        color={Colors.primary}
         onPress={() => {
           props.navigation.pop()
         }}
@@ -79,16 +87,19 @@ function StatusScreen(props) {
       </Button>
       <Button
         mode="contained"
-        color={Colors.submit}
+        color={colors.notification}
         theme={{
           roundness: 0,
         }}
         disabled={!!winner}
         onPress={() => {
+          const next = teams[playingTeamIndex + 1] ? 
+                teams[playingTeamIndex + 1].name
+                : teams[0].name
           setRound()
           setPlayingTeamIndex()
           generateQuestions()
-          props.navigation.navigate('Game')
+          props.navigation.navigate('Game', {title: next})
         }}
         style={{
           alignSelf: 'stretch',
@@ -106,7 +117,7 @@ function StatusScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 15,
+    // paddingTop: 15,
     height: '100%',
     backgroundColor: '#fff',
   },

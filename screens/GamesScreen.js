@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { ScrollView, StyleSheet, Text, View, Vibration } from 'react-native'
+import { useTheme } from '@react-navigation/native'
 import { Button, IconButton, Subheading } from 'react-native-paper'
 
 import Colors from '../constants/Colors'
@@ -12,10 +13,12 @@ import { GAME_TYPE, VIBRATE_DURATION_PATTERN } from '../constants/Questions'
 import DisableBackButton from '../components/DisableBackButton';
 import { InterstitialAdView } from '../components/AdView'
 import { playSound } from '../helpers/sound'
+import FocusAwareStatusBar from '../components/FocusedStatusBar'
 
 const DEFAULT_ERROR_MESSAGE = ' لايوجد أسئلة في الوقت الحالي, هل لديك فريق؟'
 
 function GamesScreen(props) {
+  const { colors } = useTheme()
   const [
     {
       questions,
@@ -84,7 +87,8 @@ function GamesScreen(props) {
     playSound({name: 'win', type: 'wav'})
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text><Text style={{fontSize: 28}}>{winner.name}</Text> الفائز</Text>
+        <FocusAwareStatusBar barStyle="dark-content" backgroundColor={Colors.main} />
+        <Text><Text style={{fontSize: 28, color: colors.text}}>{winner.name}</Text> الفائز</Text>
         <Button
           icon={() => <IconButton
             icon={{ source: 'arrow-right', direction: 'rtl' }}
@@ -114,7 +118,7 @@ function GamesScreen(props) {
             color='white'
           />}
           mode="contained"
-          color={Colors.submit}
+          color={colors.notification}
           theme={{ roundness: 0 }}
           onPress={() => {
             // playSound({}, true)
@@ -134,17 +138,17 @@ function GamesScreen(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, backgroundColor: colors.background,}}>
       <DisableBackButton disable={true} />
       <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
-        {canStart && playingTeamIndex !== null && !played && (
+        {/* {canStart && playingTeamIndex !== null && !played && (
           <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
             <Subheading style={{ fontSize: 22 }}>
               <Text style={{ color: 'gray' }}>فريق:</Text>{' '}
               {teams[playingTeamIndex].name}
             </Subheading>
           </View>
-        )}
+        )} */}
 
         {startTimer && (
           <Timer
@@ -156,8 +160,8 @@ function GamesScreen(props) {
           />
         )}
         {!errorMessage && (
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: count < 6 ? 'red' : 'blue' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', paddingRight: 45, }}>
+            <Text style={{ color: count < 6 || played ? 'red' : colors.primary, fontSize: 20, }}>
               {played
                 ? `
               الوقت النهائي ${count} ثانية
@@ -199,9 +203,10 @@ function GamesScreen(props) {
       <View>
         <Button
           icon="stop-circle-outline"
-          mode="outlined"
+          mode="contained"
           theme={{ roundness: 0 }}
           // color={Colors.warningBackground}
+          color={colors.notification}
           disabled={played || startTimer}
           onPress={() => {
             askPlayer('', agreed => {
@@ -223,7 +228,7 @@ function GamesScreen(props) {
             icon="arrow-right-drop-circle-outline"
             mode="contained"
             theme={{ roundness: 0 }}
-            color={Colors.submit}
+            color={colors.primary}
             onPress={() => {
                 setStartTimer(true)
                 setStarted(true)
@@ -244,7 +249,7 @@ function GamesScreen(props) {
             color='white'
           />}
           mode="contained"
-          color={Colors.submit}
+          color={colors.primary}
           theme={{ roundness: 0 }}
           disabled={!played || startTimer}
           onPress={() => {
