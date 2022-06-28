@@ -16,14 +16,15 @@ const QuestionsView = (props) => {
     return (
     <View style={{ flex: 1 }}>
         {props.questions.map((question, i) => {
-            prop = `${props.team.round}_${question}`  
+            const prop = `${props.team.round}_${question}`  
+            const checked = props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop]
             return (
             <View style={{ flex: 1 }} key={i}>
                     <Divider style={{ color: colors.border, height: 2 }} />
                 <TouchableWithoutFeedback
                     onPress={() => {
                         if (props.show) {
-                            props.setCheck(question)
+                            props.setCheck(question, prop, !checked)
                             if (props.played) {
                                 playSound({name: 'wrongbuzz', type: 'wav'})
                                 setClickedAfterCompletion(arr => [...arr, question])
@@ -42,12 +43,12 @@ const QuestionsView = (props) => {
                     >
                         {props.show ? (
                             <React.Fragment>
-                                {props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] && (
+                                {checked && (
                                     <Button icon="check" color={clickedAfterCompletion.includes(question) && 'green'} />
                                 )}
                                 {clickedAfterCompletion.includes(question) ? 
                                     <Text style={{color: 'green'}}>{question}</Text> : 
-                                    <Text style={{color: props.questionsStatus[props.playingTeamIndex] && props.questionsStatus[props.playingTeamIndex][prop] ? colors.primary: colors.text}}>{question}</Text>}
+                                    <Text style={{color: checked ? colors.primary: colors.text}}>{question}</Text>}
                                 
                             </React.Fragment>
                         ) : (

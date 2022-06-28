@@ -14,6 +14,7 @@ import DisableBackButton from '../components/DisableBackButton';
 import { InterstitialAdView } from '../components/AdView'
 import { playSound } from '../helpers/sound'
 import FocusAwareStatusBar from '../components/FocusedStatusBar'
+import { ProgressionContext } from '../state/progression/progression'
 
 const DEFAULT_ERROR_MESSAGE = ' لايوجد أسئلة في الوقت الحالي, هل لديك فريق؟'
 
@@ -34,6 +35,11 @@ function GamesScreen(props) {
     },
     { generateQuestions, setQuestionsStatus, setStarted, reset, },
   ] = React.useContext(Context)
+  const [
+    {},
+    { updateWord },
+  ] = React.useContext(ProgressionContext)
+
   const [errorMessage, setErrorMessage] = useState()
   const [startTimer, setStartTimer] = useState()
   const [played, setPlayed] = useState(false)
@@ -179,7 +185,10 @@ function GamesScreen(props) {
           questionsStatus={questionsStatus}
           show={(startTimer || played) && (gameType === GAME_TYPE ? true : currentPlayer.playing)}
           played={!startTimer && played}
-          setCheck={setQuestionsStatus}
+          setCheck={(question, roundQuestion, checked) => { 
+            updateWord(roundQuestion, checked)
+            setQuestionsStatus(question)
+          }}
           canCheck={gameType === GAME_TYPE ? true : currentPlayer.playing}
           playingTeamIndex={playingTeamIndex}
           team={teams[playingTeamIndex]}
