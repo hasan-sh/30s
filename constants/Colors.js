@@ -12,4 +12,5 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
   submit: '#FF1493',
+  main: '#3384cd',
 }

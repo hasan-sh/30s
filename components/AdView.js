@@ -2,12 +2,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import { BannerAd, TestIds, BannerAdSize, useInterstitialAd,   } from '@react-native-admob/admob';
 
 import {ActivityIndicator, DeviceEventEmitter, Platform, Text, Button, View} from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 
 const bannerAdUnit = __DEV__ ? TestIds.BANNER : 'ca-app-pub-9014543169045134/7018505814'
 const interstitialAdUnit = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9014543169045134/1052713322'
 
-export function BannerAdView() {
+export function BannerAdView({ showBtn=true }) {
+  const { colors } = useTheme()
   const bannerRef = useRef(null);
   return (
     <View>
@@ -21,7 +23,7 @@ export function BannerAdView() {
           requestNonPersonalizedAdsOnly: true,
         }}
       />
-      <Button title="حدّث الإعلان" onPress={() => bannerRef.current?.loadAd()} />
+      {showBtn && <Button title="حدّث الإعلان" onPress={() => bannerRef.current?.loadAd()} color={colors.primary} />}
     </View>
   );
 }

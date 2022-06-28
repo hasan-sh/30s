@@ -1,7 +1,8 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation-stack'
- 
+import { createStackNavigator } from '@react-navigation/stack'
+
+
 import TabBarIcon from '../components/TabBarIcon'
 
 import InitialScreen from '../screens/InitialScreen'
@@ -13,86 +14,81 @@ import AboutScreen from '../screens/AboutScreen';
 
 import Colors from '../constants/Colors'
 
-const HomeStack = createStackNavigator(
-  {
-    Initial: {
-      screen: InitialScreen, 
-      navigationOptions: {
-        headerTitleAlign:'center',
-        title: 'شاشة البدء'
-      }
-    },
-    Landing: { screen: HomeScreen, navigationOptions: {
-      headerShown: false,
-    } },
-    About: {
-      screen: AboutScreen,
-      navigationOptions: {
-        title: 'عن اللعبة',
-      }
-    },
-    Settings: {
-      screen: SettingsScreen,
-      navigationOptions: {
-        title: 'الإعدادات',
-      },
-    },
-  },
-  {
-    initialRouteName: 'Landing',
-    // headerMode: 'none',
-  }
-)
+const Stack = createStackNavigator();
 
-HomeStack.navigationOptions = {
-  tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="home" />,
+function RootStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Landing"
+      screenOptions={{ gestureEnabled: true }}
+      // screenListeners={{focus: focused => {}}}
+    >
+      <Stack.Group>
+        <Stack.Screen
+          name="Landing"
+          component={HomeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Initial"
+          component={InitialScreen}
+          options={{headerTitleAlign: 'center', title: 'شاشة البدء'}}
+        />
+        <Stack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{ title: 'عن اللعبة',}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ title: 'الإعدادات',}}
+        />
+      </Stack.Group>
+
+      <Stack.Group>
+        <Stack.Screen
+          name="Game"
+          component={GamesScreen}
+          options={({ route }) => ({
+            title: (route.params && route.params.title) || '٣‬٠‬ ثانية',
+            // headerStyle: { backgroundColor: Colors.main },
+            headerTitleAlign: 'center',
+            headerLeft: () => <></>,
+            // headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          })
+        }
+          // listeners={{
+          //   focus: (focused) => <TabBarIcon focused={focused} name="games" />
+          // }}
+          // options={{headerShown: false}}
+          // options={{ 
+          //   headerTitleAlign: 'center', 
+          //   title: '٣‬٠‬ ثانية',
+          //   headerTintColor: Colors.tintColor,
+          //   headerStyle: {
+          //     backgroundColor: Colors.tabBar,
+          //   },
+          //   headerLeft: () => <></> 
+          //  }}
+          // initialParams={{ user: 'me' }}
+        />
+        <Stack.Screen 
+          name="Status"
+          component={StatusScreen}
+          options={{
+            headerShown: false,
+            headerTitleAlign: 'center',
+            title: 'النتائج',
+          }}
+        />
+      </Stack.Group>
+
+    </Stack.Navigator>
+  );
 }
 
-const GameStack = createStackNavigator(
-  {
-    Game: {
-      screen: GamesScreen,
-      navigationOptions: {
-        title: '٣‬٠‬ ثانية',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name="games" />
-        ),
-        headerTitleAlign: 'center',
-        headerTintColor: Colors.tintColor,
-        headerStyle: {
-          backgroundColor: Colors.tabBar,
-        },
-        headerLeft: () => <></> 
-      },
-    },
-    Status: {
-      screen: StatusScreen,
-      navigationOptions: {
-        title: 'النتائج',
-        headerTitleAlign: 'center',
-      },
-    },
-  }
-)
-
-GameStack.navigationOptions = {
-  tabBarLabel: 'Game',
-  tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="games" />,
-}
-
-export default createStackNavigator(
-  {
-    Home: HomeStack,
-    Game: GameStack,
-  },
-  {
-    initialRouteName: 'Home',
-    tabBarOptions: {
-      // showLabel: false,
-    },
-    navigationOptions: {
-      headerBackTitleVisible: true,
-    },
-    headerMode: 'none',
-  }
-)
+export default RootStack

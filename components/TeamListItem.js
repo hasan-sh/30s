@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { List, TextInput, IconButton } from 'react-native-paper'
 import { Text, View } from 'react-native'
+import { useTheme } from '@react-navigation/native';
+import { askPlayer } from '../helpers';
 
 function TeamListItem({ i, id, updateTeam, removeTeam, name: currentName }) {
+  const { colors } = useTheme()
   const [name, setName] = useState(currentName)
 
   return (
@@ -11,7 +14,8 @@ function TeamListItem({ i, id, updateTeam, removeTeam, name: currentName }) {
       <Text style={{ 
           position: 'absolute', 
           top: 0, 
-          right: 0 
+          right: 0,
+          color: colors.text 
         }}>
         {i + 1}
       </Text>
@@ -28,7 +32,7 @@ function TeamListItem({ i, id, updateTeam, removeTeam, name: currentName }) {
             value={name}
             onBlur={e => updateTeam({ name, id })}
             returnKeyLabel="إضافة"
-            style={{ flexGrow: 20 }}
+            style={{ flexGrow: 20, }}
           />
         )}
         right={() => (
@@ -43,15 +47,19 @@ function TeamListItem({ i, id, updateTeam, removeTeam, name: currentName }) {
                     icon={{ source: 'delete-forever', direction: 'rtl' }}
                     style={{padding: 0, margin: 0}}
                     onPress={() => {
-                      removeTeam(id)
+                      askPlayer('', agreed => {
+                        if (agreed) {
+                          removeTeam(id)
+                        }
+                      })
                     }}
                   />
-                  <IconButton
+                  {/* <IconButton
                     size={30}
                     icon={{ source: 'plus-circle', direction: 'rtl' }}
                     style={{padding: 0, margin: 0}}
-                    color='blue'
-                  />
+                    color={colors.primary}
+                  /> */}
                 </View>
               )}
               style={{ flexGrow: 0 }}
